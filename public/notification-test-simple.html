@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notification Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .navbar-notifications {
+      position: relative;
+      display: inline-block;
+      margin: 20px 0;
+    }
+    #notifications-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: background-color 0.3s;
+    }
+    #notifications-btn:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    #notification-count {
+      background: #ff4757;
+      color: white;
+      border-radius: 50%;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.7rem;
+      font-weight: bold;
+      margin-left: 0.2rem;
+      min-width: 1.2rem;
+      text-align: center;
+      display: none;
+    }
+    .notifications-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      min-width: 300px;
+      max-width: 400px;
+      max-height: 400px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+    }
+    .notification-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    .notification-item:hover {
+      background-color: #f8f9fa;
+    }
+    .notification-item.unread {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+    }
+    .notification-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .notification-message {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 5px;
+    }
+    .notification-time {
+      font-size: 0.8rem;
+      color: #999;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔔 Notification System Test</h1>
+    
+    <div class="navbar-notifications">
+      <button id="notifications-btn">🔔 <span id="notification-count">0</span></button>
+      <div id="notifications-dropdown" class="notifications-dropdown">
+        <p>No new notifications</p>
+      </div>
+    </div>
+    
+    <button onclick="testNotifications()">Test Notifications</button>
+    <button onclick="clearNotifications()">Clear Notifications</button>
+    
+    <div id="debug-info" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+      <h3>Debug Info:</h3>
+      <div id="debug-content">Loading...</div>
+    </div>
+  </div>
+
+  <script>
+    // Simplified Dashboard Controller for testing
+    class TestDashboardController {
+      constructor() {
+        this.mockNotifications = [
+          {
+            id: 1,
+            title: 'Payment Overdue Alert',
+            message: 'Payment of Ksh 1,000 from John Doe is 3 days overdue',
+            is_read: false,
+            created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
+          },
+          {
+            id: 2,
+            title: 'New Debt Created',
+            message: 'Debt of Ksh 500 has been created for Jane Smith',
+            is_read: false,
+            created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+          },
+          {
+            id: 3,
+            title: 'Payment Received',
+            message: 'Payment of Ksh 2,000 received from Bob Johnson',
+            is_read: true,
+            created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+          },
+          {
+            id: 4,
+            title: 'System Test',
+            message: 'This is a test notification to verify the notification system is working correctly',
+            is_read: false,
+            created_at: new Date(Date.now() - 30 * 60 * 1000).toISOString()
+          }
+        ];
+        
+        this.setupEventListeners();
+        this.loadNotifications();
+      }
+      
+      setupEventListeners() {
+        const notificationsBtn = document.getElementById('notifications-btn');
+        const notificationsDropdown = document.getElementById('notifications-dropdown');
+        
+        if (notificationsBtn && notificationsDropdown) {
+          notificationsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notificationsDropdown.style.display = notificationsDropdown.style.display === 'block' ? 'none' : 'block';
+          });
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+          if (notificationsDropdown) {
+            notificationsDropdown.style.display = 'none';
+          }
+        });
+      }
+      
+      loadNotifications() {
+        console.log('Loading notifications...');
+        const unreadCount = this.mockNotifications.filter(n => !n.is_read).length;
+        this.updateNotificationDisplay(this.mockNotifications, unreadCount);
+        this.updateDebugInfo();
+      }
+      
+      updateNotificationDisplay(notifications, unreadCount) {
+        console.log('Updating notification display:', notifications.length, 'notifications,', unreadCount, 'unread');
+        
+        const countElement = document.getElementById('notification-count');
+        const dropdownElement = document.getElementById('notifications-dropdown');
+
+        if (countElement) {
+          countElement.textContent = unreadCount;
+          countElement.style.display = unreadCount > 0 ? 'inline' : 'none';
+          console.log('Updated count element:', countElement.textContent, countElement.style.display);
+        }
+
+        if (dropdownElement) {
+          if (notifications.length === 0) {
+            dropdownElement.innerHTML = '<p>No notifications</p>';
+          } else {
+            dropdownElement.innerHTML = notifications.map(notification => `
+              <div class="notification-item ${notification.is_read ? 'read' : 'unread'}" onclick="markNotificationAsRead(${notification.id})">
+                <div class="notification-title">${notification.title}</div>
+                <div class="notification-message">${notification.message}</div>
+                <div class="notification-time">${this.formatNotificationTime(notification.created_at)}</div>
+              </div>
+            `).join('');
+          }
+          console.log('Updated dropdown element:', dropdownElement.innerHTML.substring(0, 100) + '...');
+        }
+      }
+      
+      formatNotificationTime(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+        
+        if (diffInMinutes < 1) return 'Just now';
+        if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+        if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
+        return date.toLocaleDateString();
+      }
+      
+      updateDebugInfo() {
+        const debugContent = document.getElementById('debug-content');
+        if (debugContent) {
+          debugContent.innerHTML = `
+            <p><strong>Mock Notifications:</strong> ${this.mockNotifications.length}</p>
+            <p><strong>Unread Count:</strong> ${this.mockNotifications.filter(n => !n.is_read).length}</p>
+            <p><strong>Count Element:</strong> ${document.getElementById('notification-count').textContent}</p>
+            <p><strong>Count Display:</strong> ${document.getElementById('notification-count').style.display}</p>
+            <p><strong>Dropdown Content:</strong> ${document.getElementById('notifications-dropdown').innerHTML.substring(0, 100)}...</p>
+          `;
+        }
+      }
+    }
+    
+    // Global functions
+    window.testNotifications = function() {
+      console.log('Testing notifications...');
+      testController.loadNotifications();
+    };
+    
+    window.clearNotifications = function() {
+      console.log('Clearing notifications...');
+      testController.updateNotificationDisplay([], 0);
+      testController.updateDebugInfo();
+    };
+    
+    window.markNotificationAsRead = function(notificationId) {
+      console.log('Marking notification as read:', notificationId);
+      // In demo mode, just reload notifications
+      testController.loadNotifications();
+    };
+    
+    // Initialize when page loads
+    let testController;
+    window.addEventListener('load', function() {
+      console.log('Page loaded, initializing test controller...');
+      testController = new TestDashboardController();
+    });
+  </script>
+</body>
+</html>
+
+
+
+

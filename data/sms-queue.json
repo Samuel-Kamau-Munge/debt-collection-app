@@ -1,0 +1,42 @@
+[
+  {
+    "id": "custom-1758273266193-azy7k6vrm",
+    "to": "+254112851330",
+    "message": "This is a test SMS from Debt Manager Pro to verify SMS functionality is working.",
+    "timestamp": "2025-09-19T09:14:26.193Z",
+    "status": "failed",
+    "deliveryMethod": "gsm_modem",
+    "attempts": 1,
+    "lastAttempt": "2025-09-19T09:14:26.196Z"
+  },
+  {
+    "id": "custom-1761060209843-1jyux6k20",
+    "to": "+254708374149",
+    "message": "Test SMS from Debt Manager Pro - Phone functionality test",
+    "timestamp": "2025-10-21T15:23:29.843Z",
+    "status": "failed",
+    "deliveryMethod": "gsm_modem",
+    "attempts": 1,
+    "lastAttempt": "2025-10-21T15:23:29.845Z"
+  },
+  {
+    "id": "custom-1761060211865-qdp0zexe9",
+    "to": "+254708374149",
+    "message": "Test SMS from Custom Gateway - Phone functionality test",
+    "timestamp": "2025-10-21T15:23:31.865Z",
+    "status": "failed",
+    "deliveryMethod": "gsm_modem",
+    "attempts": 1,
+    "lastAttempt": "2025-10-21T15:23:31.866Z"
+  },
+  {
+    "id": "custom-1761060248897-sdpqhstsg",
+    "to": "+254708374149",
+    "message": "Test SMS from Debt Manager Pro - Communication Management Test",
+    "timestamp": "2025-10-21T15:24:08.897Z",
+    "status": "failed",
+    "deliveryMethod": "gsm_modem",
+    "attempts": 1,
+    "lastAttempt": "2025-10-21T15:24:08.900Z"
+  }
+]

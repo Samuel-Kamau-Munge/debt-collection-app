@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debt Categories Debug</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .debug-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .test-button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 14px;
+    }
+    .test-button:hover {
+      background: #0056b3;
+    }
+    .debug-info {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 15px;
+      margin-top: 15px;
+      font-family: monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border-color: #f5c6cb;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+      border-color: #c3e6cb;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 Debt Categories Debug</h1>
+  
+  <div class="debug-section">
+    <h2>Function Availability Test</h2>
+    <button class="test-button" onclick="testFunctionAvailability()">Test Function Availability</button>
+    <div id="function-test" class="debug-info">Click to test function availability...</div>
+  </div>
+
+  <div class="debug-section">
+    <h2>Direct Function Test</h2>
+    <button class="test-button" onclick="testShowAddCategoryForm()">Test showAddCategoryForm</button>
+    <button class="test-button" onclick="testEditCategory()">Test editCategory</button>
+    <button class="test-button" onclick="testRefreshCategories()">Test refreshCategories</button>
+    <div id="direct-test" class="debug-info">Click buttons to test functions directly...</div>
+  </div>
+
+  <div class="debug-section">
+    <h2>Console Log Test</h2>
+    <button class="test-button" onclick="logToConsole()">Log to Console</button>
+    <div id="console-test" class="debug-info">Check browser console for logs...</div>
+  </div>
+
+  <script>
+    function testFunctionAvailability() {
+      const results = document.getElementById('function-test');
+      let output = 'Function Availability Test:\n\n';
+      
+      const functions = [
+        'showAddCategoryForm', 'hideAddCategoryForm', 'refreshCategories',
+        'switchView', 'filterCategories', 'sortCategories',
+        'editCategory', 'viewCategoryDebts', 'deleteCategory',
+        'goToRecordDebt'
+      ];
+      
+      functions.forEach(func => {
+        if (typeof window[func] === 'function') {
+          output += `✅ ${func} - Available\n`;
+        } else {
+          output += `❌ ${func} - Missing\n`;
+        }
+      });
+      
+      // Check module
+      if (typeof window.debtCategoriesModule !== 'undefined') {
+        output += '\n✅ debtCategoriesModule - Available\n';
+      } else {
+        output += '\n❌ debtCategoriesModule - Missing\n';
+      }
+      
+      results.textContent = output;
+      results.className = 'debug-info';
+    }
+
+    function testShowAddCategoryForm() {
+      const results = document.getElementById('direct-test');
+      try {
+        console.log('Testing showAddCategoryForm...');
+        if (typeof window.showAddCategoryForm === 'function') {
+          window.showAddCategoryForm();
+          results.textContent = '✅ showAddCategoryForm called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ showAddCategoryForm function not found';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error: ${error.message}`;
+        results.className = 'debug-info error';
+        console.error('Error testing showAddCategoryForm:', error);
+      }
+    }
+
+    function testEditCategory() {
+      const results = document.getElementById('direct-test');
+      try {
+        console.log('Testing editCategory...');
+        if (typeof window.editCategory === 'function') {
+          window.editCategory('Test Category');
+          results.textContent = '✅ editCategory called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ editCategory function not found';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error: ${error.message}`;
+        results.className = 'debug-info error';
+        console.error('Error testing editCategory:', error);
+      }
+    }
+
+    function testRefreshCategories() {
+      const results = document.getElementById('direct-test');
+      try {
+        console.log('Testing refreshCategories...');
+        if (typeof window.refreshCategories === 'function') {
+          window.refreshCategories();
+          results.textContent = '✅ refreshCategories called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ refreshCategories function not found';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error: ${error.message}`;
+        results.className = 'debug-info error';
+        console.error('Error testing refreshCategories:', error);
+      }
+    }
+
+    function logToConsole() {
+      console.log('=== Debt Categories Debug ===');
+      console.log('Window functions:', {
+        showAddCategoryForm: typeof window.showAddCategoryForm,
+        editCategory: typeof window.editCategory,
+        refreshCategories: typeof window.refreshCategories,
+        debtCategoriesModule: typeof window.debtCategoriesModule
+      });
+      
+      const results = document.getElementById('console-test');
+      results.textContent = 'Check browser console (F12) for detailed logs';
+      results.className = 'debug-info success';
+    }
+
+    // Check for JavaScript errors
+    window.addEventListener('error', function(e) {
+      console.error('JavaScript Error:', e);
+      const results = document.getElementById('function-test');
+      results.textContent = `JavaScript Error:\n${e.message}\nFile: ${e.filename}\nLine: ${e.lineno}`;
+      results.className = 'debug-info error';
+    });
+
+    // Run initial test
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        testFunctionAvailability();
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
+
+
+

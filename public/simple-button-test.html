@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Test - Simple</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .test-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .test-button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 14px;
+    }
+    .test-button:hover {
+      background: #0056b3;
+    }
+    .test-button:active {
+      background: #004085;
+    }
+    .debug-info {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 15px;
+      margin-top: 15px;
+      font-family: monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border-color: #f5c6cb;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+      border-color: #c3e6cb;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 Simple Button Test</h1>
+  
+  <div class="test-section">
+    <h2>Test Basic Functions</h2>
+    <button class="test-button" onclick="testLogout()">Test Logout</button>
+    <button class="test-button" onclick="testExportDebts()">Test Export Debts</button>
+    <button class="test-button" onclick="testAddDebt()">Test Add Debt</button>
+    <button class="test-button" onclick="testClearFilters()">Test Clear Filters</button>
+    <div id="results" class="debug-info">Click buttons to test...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>Check Global Functions</h2>
+    <button class="test-button" onclick="checkFunctions()">Check All Functions</button>
+    <div id="function-check" class="debug-info">Click to check functions...</div>
+  </div>
+
+  <script>
+    function testLogout() {
+      const results = document.getElementById('results');
+      try {
+        if (typeof window.logout === 'function') {
+          results.textContent = '✅ Logout function exists and is callable';
+          results.className = 'debug-info success';
+          // Don't actually call logout() as it will redirect
+        } else {
+          results.textContent = '❌ Logout function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing logout: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testExportDebts() {
+      const results = document.getElementById('results');
+      try {
+        if (typeof window.exportDebts === 'function') {
+          window.exportDebts();
+          results.textContent = '✅ Export Debts function called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ Export Debts function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing exportDebts: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testAddDebt() {
+      const results = document.getElementById('results');
+      try {
+        if (typeof window.addDebt === 'function') {
+          window.addDebt();
+          results.textContent = '✅ Add Debt function called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ Add Debt function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing addDebt: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testClearFilters() {
+      const results = document.getElementById('results');
+      try {
+        if (typeof window.clearFilters === 'function') {
+          window.clearFilters();
+          results.textContent = '✅ Clear Filters function called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ Clear Filters function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing clearFilters: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function checkFunctions() {
+      const results = document.getElementById('function-check');
+      let output = 'Global Functions Check:\n\n';
+      
+      const functions = [
+        'logout', 'exportDebts', 'clearFilters', 'refreshDebts', 
+        'addDebt', 'editDebt', 'deleteDebt', 'viewDebt', 'recordPayment',
+        'addCredit', 'editCredit', 'deleteCredit', 'viewCredit', 'recordCreditPayment',
+        'goToRecordDebt', 'goToViewDebts', 'goToRecordCredit', 'goToViewCredits',
+        'goToTransactionHistory', 'goToAnalytics', 'goToReports',
+        'previousPage', 'nextPage', 'exportCredits', 'refreshCredits',
+        'showDebtStats', 'showCreditStats', 'showTransactionStats',
+        'searchDebts', 'searchCredits', 'dismissAlert'
+      ];
+      
+      functions.forEach(func => {
+        if (typeof window[func] === 'function') {
+          output += `✅ ${func}\n`;
+        } else {
+          output += `❌ ${func}\n`;
+        }
+      });
+      
+      results.textContent = output;
+      results.className = 'debug-info';
+    }
+
+    // Check for JavaScript errors
+    window.addEventListener('error', function(e) {
+      const results = document.getElementById('results');
+      results.textContent = `JavaScript Error:\n${e.message}\nFile: ${e.filename}\nLine: ${e.lineno}`;
+      results.className = 'debug-info error';
+    });
+
+    // Run initial check
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        checkFunctions();
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
+
+
+

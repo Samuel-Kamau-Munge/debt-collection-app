@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Sidebar Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background: #d4edda; }
+        .error { background: #f8d7da; }
+    </style>
+</head>
+<body>
+    <h1>Minimal Sidebar Test</h1>
+    <div id="results"></div>
+
+    <script>
+        // Test basic API functionality
+        async function testAPI() {
+            const results = document.getElementById('results');
+            
+            try {
+                // Test if server is responding
+                const response = await fetch('/api/debts');
+                const data = await response.text();
+                
+                if (response.status === 401) {
+                    results.innerHTML = '<div class="test success">✅ Server is running and API endpoints are working (401 = auth required, which is expected)</div>';
+                } else {
+                    results.innerHTML = `<div class="test success">✅ Server is running. Status: ${response.status}</div>`;
+                }
+            } catch (error) {
+                results.innerHTML = `<div class="test error">❌ Server error: ${error.message}</div>`;
+            }
+        }
+        
+        // Test dashboard.js loading
+        function testDashboardJS() {
+            const results = document.getElementById('results');
+            
+            try {
+                // Try to load dashboard.js
+                const script = document.createElement('script');
+                script.src = '/dashboard.js';
+                script.onload = () => {
+                    results.innerHTML += '<div class="test success">✅ Dashboard.js loaded successfully</div>';
+                };
+                script.onerror = () => {
+                    results.innerHTML += '<div class="test error">❌ Failed to load dashboard.js</div>';
+                };
+                document.head.appendChild(script);
+            } catch (error) {
+                results.innerHTML += `<div class="test error">❌ Error loading dashboard.js: ${error.message}</div>`;
+            }
+        }
+        
+        // Run tests
+        testAPI();
+        testDashboardJS();
+    </script>
+</body>
+</html>

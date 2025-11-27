@@ -1,0 +1,715 @@
+/* Payment Schedule Module Styles */
+.schedule-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: #000000;
+  border: 1px solid #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(255,255,255,0.12);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  color: #ffffff;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  color: #b0b0b0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.schedule-filters {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.filter-section h3 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group select {
+  padding: 0.75rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.schedule-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.actions-left,
+.actions-right {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+}
+
+.btn-icon {
+  font-size: 1.1rem;
+}
+
+.schedule-content {
+  background: #000000;
+  border: 1px solid #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(255,255,255,0.12);
+  overflow: hidden;
+}
+
+.schedule-tabs {
+  display: flex;
+  border-bottom: 1px solid #333333;
+  background: #000000;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: #b0b0b0;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-button:hover {
+  background: rgba(255,255,255,0.06);
+  color: #ffffff;
+}
+
+.tab-button.active {
+  color: #000000;
+  background: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+.schedule-list {
+  padding: 2rem;
+}
+
+.payment-item {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: all 0.3s;
+  background: #000000;
+  color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  overflow: hidden;
+  gap: 0.75rem 1rem; /* row-gap | column-gap */
+}
+
+.payment-item:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
+
+.payment-item.overdue {
+  border-left: 4px solid #ffffff;
+  background: #0a0a0a;
+}
+
+.payment-item.due-today {
+  border-left: 4px solid #ffffff;
+  background: #0a0a0a;
+}
+
+.payment-item.pending {
+  border-left: 4px solid #ffffff;
+  background: #0a0a0a;
+}
+
+.payment-item.completed {
+  border-left: 4px solid #ffffff;
+  background: #0a0a0a;
+  opacity: 0.8;
+}
+
+.payment-icon {
+  font-size: 2rem;
+  margin-right: 1rem;
+  width: 50px;
+  text-align: center;
+}
+
+.payment-info {
+  flex: 1 1 auto;
+  margin-right: 1rem;
+  min-width: 0;
+}
+
+.payment-debtor {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.payment-description {
+  color: #b0b0b0;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.payment-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: #b0b0b0;
+}
+
+.payment-amount {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-right: 1rem;
+  min-width: 120px;
+  text-align: right;
+}
+
+.payment-due-date {
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  margin-right: 1rem;
+  min-width: 100px;
+  text-align: right;
+}
+
+.payment-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 1rem;
+  min-width: 80px;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.payment-status.overdue {
+  background: #ffffff;
+  color: #000000;
+}
+
+.payment-status.due-today {
+  background: #ffffff;
+  color: #000000;
+}
+
+.payment-status.pending {
+  background: #ffffff;
+  color: #000000;
+}
+
+.payment-status.completed {
+  background: #ffffff;
+  color: #000000;
+}
+
+.payment-amount,
+.payment-due-date,
+.payment-status {
+  flex: 0 0 auto;
+  margin-right: 1rem;
+}
+
+.payment-actions {
+  display: flex;
+  gap: 0.75rem;
+  min-width: 150px;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+@media (max-width: 900px) {
+  .payment-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex: 0 0 auto;
+}
+
+.btn-small.btn-primary {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+.btn-small.btn-primary:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+.btn-small.btn-secondary {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+.btn-small.btn-secondary:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+.btn-small.btn-success {
+  background: #28a745;
+  color: white;
+}
+
+.btn-small.btn-success:hover {
+  background: #218838;
+}
+
+/* Loading and Error States */
+.loading-message, .error-message {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+}
+
+.error-message {
+  color: #dc3545;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+}
+
+.no-data-message h3 {
+  margin-bottom: 1rem;
+  color: #495057;
+}
+
+.no-data-message p {
+  margin-bottom: 1.5rem;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0d4f3c 100%);
+  border: 1px solid #28a745;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: white;
+  animation: slideIn 0.3s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 1rem;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #b0b0b0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.modal-body {
+  margin-bottom: 1.5rem;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  border-top: 1px solid #333;
+  padding-top: 1rem;
+}
+
+/* Notification Styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  z-index: 10000;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  animation: slideInRight 0.3s ease;
+}
+
+.notification-success {
+  background: #28a745;
+}
+
+.notification-error {
+  background: #dc3545;
+}
+
+.notification-info {
+  background: #17a2b8;
+}
+
+.notification-warning {
+  background: #ffc107;
+  color: #000;
+}
+
+/* Form Enhancements */
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.modal-body input:focus,
+.modal-body select:focus,
+.modal-body textarea:focus {
+  outline: none;
+  border-color: #28a745;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+}
+
+.modal-body label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+/* Button Enhancements */
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from { 
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Enhanced Payment Cards */
+.payment-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.payment-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+}
+
+.payment-card.overdue {
+  border-left: 4px solid #dc3545;
+}
+
+.payment-card.due-today {
+  border-left: 4px solid #ffc107;
+}
+
+.payment-card.upcoming {
+  border-left: 4px solid #17a2b8;
+}
+
+.payment-card.completed {
+  border-left: 4px solid #28a745;
+  opacity: 0.8;
+}
+
+/* Action Button Enhancements */
+.action-btn {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.action-btn:hover {
+  transform: scale(1.05);
+}
+
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+.action-btn.processing {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Loading States */
+.loading-message {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.loading-message::after {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #28a745;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .filter-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .schedule-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .actions-left,
+  .actions-right {
+    justify-content: center;
+  }
+  
+  .payment-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .payment-info {
+    margin-right: 0;
+  }
+  
+  .payment-amount,
+  .payment-due-date,
+  .payment-status {
+    text-align: left;
+    margin-right: 1;
+    margin-bottom: 0.5rem;
+  }
+  
+  .payment-actions {
+    min-width: auto;
+    justify-content: stretch;
+  }
+  
+  .schedule-tabs {
+    flex-direction: column;
+  }
+  
+  .tab-button {
+    border-bottom: 1px solid #e9ecef;
+    border-right: none;
+  }
+  
+  .tab-button.active {
+    border-bottom-color: #e9ecef;
+    border-left: 3px solid #667eea;
+  }
+}
+
+@media (max-width: 480px) {
+  .schedule-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .payment-meta {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .schedule-list {
+    padding: 1rem;
+  }
+}

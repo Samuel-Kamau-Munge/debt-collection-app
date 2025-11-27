@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Real-time Notifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .result.success {
+            background: #d5f4e6;
+            border: 1px solid #27ae60;
+            color: #27ae60;
+        }
+        .result.error {
+            background: #fadbd8;
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+        .result.info {
+            background: #d6eaf8;
+            border: 1px solid #3498db;
+            color: #3498db;
+        }
+        .notification-item {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: white;
+        }
+        .notification-item.unread {
+            border-left: 4px solid #e74c3c;
+            background: #fff5f5;
+        }
+        .notification-item.read {
+            border-left: 4px solid #27ae60;
+            background: #f5fff5;
+        }
+        .notification-title {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .notification-message {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .notification-time {
+            color: #95a5a6;
+            font-size: 12px;
+            text-align: right;
+        }
+        .count-display {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔔 Test Real-time Notifications</h1>
+        
+        <div class="count-display" id="countDisplay">
+            Loading...
+        </div>
+        
+        <button onclick="testNotifications()">Test Notifications API</button>
+        <button onclick="setTestToken()">Set Test Token</button>
+        <button onclick="goToDashboard()">Go to Dashboard</button>
+        
+        <div id="result" class="result"></div>
+        <div id="notificationsList"></div>
+    </div>
+
+    <script>
+        const TEST_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdHVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NjEwNjM0NTcsImV4cCI6MTc2MTE0OTg1N30.VGCO_oaEE8w6StW-FNLtCp2JrkRPJN9UNGKY4de37ps';
+        
+        // Set test token in localStorage
+        function setTestToken() {
+            localStorage.setItem('token', TEST_TOKEN);
+            document.getElementById('result').className = 'result success';
+            document.getElementById('result').innerHTML = '✅ Test token set in localStorage. You can now test the dashboard.';
+        }
+        
+        // Test notifications API
+        async function testNotifications() {
+            try {
+                document.getElementById('result').className = 'result info';
+                document.getElementById('result').innerHTML = '🔄 Testing notifications API...';
+                
+                // Test unread count
+                const countResponse = await fetch('/api/notifications/unread-count', {
+                    headers: {
+                        'Authorization': `Bearer ${TEST_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (countResponse.ok) {
+                    const countData = await countResponse.json();
+                    document.getElementById('countDisplay').innerHTML = `
+                        <div>📊 Unread Notifications</div>
+                        <div style="font-size: 48px; color: #e74c3c;">${countData.unreadCount}</div>
+                    `;
+                    
+                    document.getElementById('result').className = 'result success';
+                    document.getElementById('result').innerHTML = `✅ API working! Unread count: ${countData.unreadCount}`;
+                } else {
+                    throw new Error(`HTTP ${countResponse.status}: ${countResponse.statusText}`);
+                }
+                
+                // Test notifications list
+                const notificationsResponse = await fetch('/api/notifications?limit=5', {
+                    headers: {
+                        'Authorization': `Bearer ${TEST_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (notificationsResponse.ok) {
+                    const notificationsData = await notificationsResponse.json();
+                    
+                    const notificationsList = document.getElementById('notificationsList');
+                    notificationsList.innerHTML = '';
+                    
+                    notificationsData.notifications.forEach(notification => {
+                        const notificationDiv = document.createElement('div');
+                        notificationDiv.className = `notification-item ${notification.is_read ? 'read' : 'unread'}`;
+                        notificationDiv.innerHTML = `
+                            <div class="notification-title">${notification.title}</div>
+                            <div class="notification-message">${notification.message}</div>
+                            <div class="notification-time">${formatTime(notification.created_at)}</div>
+                        `;
+                        notificationsList.appendChild(notificationDiv);
+                    });
+                    
+                    document.getElementById('result').innerHTML += `<br>✅ Loaded ${notificationsData.notifications.length} notifications`;
+                }
+                
+            } catch (error) {
+                document.getElementById('result').className = 'result error';
+                document.getElementById('result').innerHTML = `❌ Error: ${error.message}`;
+            }
+        }
+        
+        // Go to dashboard
+        function goToDashboard() {
+            setTestToken();
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 500);
+        }
+        
+        // Format time
+        function formatTime(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+            
+            if (diffInMinutes < 1) return 'Just now';
+            if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+            if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
+            return date.toLocaleDateString();
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setTestToken();
+            testNotifications();
+        });
+    </script>
+</body>
+</html>
+
+
+
+

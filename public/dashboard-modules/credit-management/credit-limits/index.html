@@ -1,0 +1,110 @@
+<div class="page-header">
+  <h2>💳 Credit Limits</h2>
+  <p>Manage credit limits and spending controls</p>
+</div>
+
+<div class="limits-stats" id="limits-stats">
+  <div class="loading-message">Loading credit limit statistics...</div>
+</div>
+
+<div class="limits-container">
+  <div class="limits-list">
+    <div class="section-header">
+      <h3>Active Credit Limits</h3>
+      <button class="btn-primary" onclick="showAddLimitForm()">
+        <span class="btn-icon">➕</span>
+        Add New Limit
+      </button>
+    </div>
+    <div class="limits-grid" id="limits-grid">
+      <div class="loading-message">Loading credit limits...</div>
+    </div>
+  </div>
+  
+  <div class="add-limit-section" id="add-limit-section" style="display: none;">
+    <h3>Add New Credit Limit</h3>
+    <form id="add-limit-form" class="limit-form">
+      <div class="form-group">
+        <label for="limit-name">Limit Name *</label>
+        <input type="text" id="limit-name" required placeholder="Enter limit name">
+      </div>
+      <div class="form-group">
+        <label for="limit-amount">Limit Amount (Ksh) *</label>
+        <input type="number" id="limit-amount" step="0.01" min="0" required placeholder="0.00">
+      </div>
+      <div class="form-group">
+        <label for="limit-type">Limit Type</label>
+        <select id="limit-type">
+          <option value="monthly">Monthly</option>
+          <option value="weekly">Weekly</option>
+          <option value="daily">Daily</option>
+          <option value="yearly">Yearly</option>
+          <option value="one-time">One-time</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="limit-category">Category</label>
+        <select id="limit-category">
+          <option value="">All Categories</option>
+          <option value="income">Income</option>
+          <option value="refund">Refund</option>
+          <option value="payment">Payment Received</option>
+          <option value="investment">Investment</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="limit-description">Description</label>
+        <textarea id="limit-description" rows="3" placeholder="Describe this credit limit..."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="limit-start-date">Start Date</label>
+        <input type="date" id="limit-start-date" required>
+      </div>
+      <div class="form-group">
+        <label for="limit-end-date">End Date (Optional)</label>
+        <input type="date" id="limit-end-date">
+      </div>
+      <div class="form-group">
+        <label for="limit-alert-threshold">Alert Threshold (%)</label>
+        <input type="number" id="limit-alert-threshold" min="0" max="100" value="80" placeholder="80">
+        <small>Get notified when this percentage of the limit is reached</small>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" onclick="hideAddLimitForm()">
+          Cancel
+        </button>
+        <button type="submit" class="btn-primary">
+          <span class="btn-icon">💾</span>
+          Add Limit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="limits-history">
+  <h3>Limit Usage History</h3>
+  <div class="history-filters">
+    <div class="filter-group">
+      <select id="history-limit-filter">
+        <option value="">All Limits</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <select id="history-period-filter">
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+        <option value="quarter">This Quarter</option>
+        <option value="year">This Year</option>
+        <option value="all">All Time</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <button class="btn-secondary" onclick="clearHistoryFilters()">Clear Filters</button>
+    </div>
+  </div>
+  <div class="history-list" id="history-list">
+    <div class="loading-message">Loading usage history...</div>
+  </div>
+</div>

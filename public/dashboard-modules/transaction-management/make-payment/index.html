@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Payment - Debt Manager Pro</title>
+    <link rel="stylesheet" href="/dashboard-modules/shared/module-styles.css">
+</head>
+<body>
+    <div class="dashboard-module-container">
+        <!-- Header Section -->
+        <div class="page-header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h2>💸 Make Payment</h2>
+                    <p>Record payments made to creditors or other parties</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-secondary" onclick="goToTransactionHistory()">
+                        <span class="btn-icon">📋</span>
+                        View History
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="form-container">
+            <form id="make-payment-form" class="module-form">
+                <div class="form-group">
+                    <label for="payee-name">Payee Name *</label>
+                    <input type="text" id="payee-name" required placeholder="Enter payee name">
+                </div>
+                <div class="form-group">
+                    <label for="payment-amount">Payment Amount (Ksh) *</label>
+                    <input type="number" id="payment-amount" step="0.01" min="0" required placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label for="payment-method">Payment Method *</label>
+                    <select id="payment-method" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="kcb">KCB Mobile Banking</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="payment-date">Payment Date *</label>
+                    <input type="date" id="payment-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="payment-reference">Reference Number</label>
+                    <input type="text" id="payment-reference" placeholder="Transaction reference number">
+                </div>
+                <div class="form-group">
+                    <label for="payment-category">Payment Category</label>
+                    <select id="payment-category">
+                        <option value="">Select Category</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="rent">Rent</option>
+                        <option value="loan_payment">Loan Payment</option>
+                        <option value="supplies">Supplies</option>
+                        <option value="services">Services</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="payment-notes">Payment Notes</label>
+                    <textarea id="payment-notes" rows="3" placeholder="Additional notes about this payment..."></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="goToTransactionHistory()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <span class="btn-icon">💾</span>
+                        Record Payment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/dashboard-modules/shared/module-template.js"></script>
+    <script src="/dashboard-modules/transaction-management/make-payment/script.js"></script>
+</body>
+</html>
+

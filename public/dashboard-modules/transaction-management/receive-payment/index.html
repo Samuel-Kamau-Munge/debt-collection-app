@@ -1,0 +1,67 @@
+<div class="page-header">
+  <h2>💰 Receive Payment</h2>
+  <p>Record payments received from debtors</p>
+</div>
+
+<div class="payment-form-container">
+  <form id="receive-payment-form" class="payment-form">
+    <div class="form-section">
+      <h3>Payment Information</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="debtor-name">Debtor Name *</label>
+          <input type="text" id="debtor-name" required placeholder="Enter debtor name">
+          <div class="suggestions" id="debtor-suggestions"></div>
+        </div>
+        <div class="form-group">
+          <label for="payment-amount">Payment Amount (Ksh) *</label>
+          <input type="number" id="payment-amount" step="0.01" min="0" required placeholder="0.00">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="payment-method">Payment Method *</label>
+          <select id="payment-method" required>
+            <option value="">Select Payment Method</option>
+            <option value="kcb">KCB Mobile Banking</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="payment-date">Payment Date *</label>
+          <input type="date" id="payment-date" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="payment-reference">Reference Number</label>
+        <input type="text" id="payment-reference" placeholder="Transaction reference number">
+      </div>
+      <div class="form-group">
+        <label for="payment-notes">Payment Notes</label>
+        <textarea id="payment-notes" rows="3" placeholder="Additional notes about this payment..."></textarea>
+      </div>
+    </div>
+    
+    <div class="form-section">
+      <h3>Debt Selection</h3>
+      <div class="debt-selection">
+        <div class="form-group">
+          <label for="debt-search">Search Debts</label>
+          <input type="text" id="debt-search" placeholder="Search by debtor name or reference...">
+        </div>
+        <div class="debts-list" id="debts-list">
+          <div class="loading-message">Loading debts...</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" onclick="goToTransactionHistory()">
+        Cancel
+      </button>
+      <button type="submit" class="btn-primary">
+        <span class="btn-icon">💾</span>
+        Record Payment
+      </button>
+    </div>
+  </form>
+</div>

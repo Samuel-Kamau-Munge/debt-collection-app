@@ -1,0 +1,60 @@
+<div class="page-header">
+  <h2>📋 Transaction History</h2>
+  <p>Live data from the database with filtering and pagination</p>
+</div>
+
+<div class="transactions-stats" id="transactions-stats"></div>
+
+<div class="transactions-filters">
+  <div class="filter-section">
+    <h3>🔍 Search & Filter</h3>
+    <div class="filter-row">
+      <div class="filter-group">
+        <input type="text" id="search-input" placeholder="Search by name, amount, or reference...">
+      </div>
+      <div class="filter-group">
+        <select id="type-filter">
+          <option value="">All Types</option>
+          <option value="payment_received">Payment Received</option>
+          <option value="payment_made">Payment Made</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <input type="date" id="start-date" placeholder="Start Date">
+      </div>
+      <div class="filter-group">
+        <input type="date" id="end-date" placeholder="End Date">
+      </div>
+      <div class="filter-group">
+        <button class="btn-secondary" id="clear-filters-btn">Clear Filters</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="transactions-stats" id="summary-panel"></div>
+
+<div class="transactions-actions">
+  <div class="actions-left">
+    <button class="btn-primary" id="receive-payment-btn">
+      <span class="btn-icon">💰</span>
+      Receive Payment
+    </button>
+  </div>
+  <div class="actions-right">
+    <button class="btn-secondary" id="refresh-btn">
+      <span class="btn-icon">🔄</span>
+      Refresh
+    </button>
+  </div>
+</div>
+
+<div class="transactions-list" id="transactions-list"></div>
+
+<div class="pagination" id="pagination" style="display: none;">
+  <button class="btn-secondary" id="prev-page">Previous</button>
+  <span class="page-info" id="page-info">Page 1 of 1</span>
+  <button class="btn-secondary" id="next-page">Next</button>
+</div>
+
+

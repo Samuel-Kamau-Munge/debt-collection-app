@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debt Categories Button Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .test-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .test-button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 14px;
+    }
+    .test-button:hover {
+      background: #0056b3;
+    }
+    .test-button:active {
+      background: #004085;
+    }
+    .debug-info {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 15px;
+      margin-top: 15px;
+      font-family: monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border-color: #f5c6cb;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+      border-color: #c3e6cb;
+    }
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 Debt Categories Button Test</h1>
+  
+  <div class="test-section">
+    <h2>📋 Header Action Buttons</h2>
+    <div class="button-grid">
+      <button class="test-button" onclick="testShowAddCategoryForm()">Add Category</button>
+      <button class="test-button" onclick="testRefreshCategories()">Refresh</button>
+    </div>
+    <div id="header-results" class="debug-info">Click header buttons to test...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>👁️ View Control Buttons</h2>
+    <div class="button-grid">
+      <button class="test-button" onclick="testSwitchView('grid')">Grid View</button>
+      <button class="test-button" onclick="testSwitchView('list')">List View</button>
+    </div>
+    <div id="view-results" class="debug-info">Click view buttons to test...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>🔍 Search & Filter Functions</h2>
+    <div class="button-grid">
+      <button class="test-button" onclick="testFilterCategories()">Filter Categories</button>
+      <button class="test-button" onclick="testSortCategories()">Sort Categories</button>
+    </div>
+    <div id="filter-results" class="debug-info">Click filter buttons to test...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>⚡ Category Action Buttons</h2>
+    <div class="button-grid">
+      <button class="test-button" onclick="testEditCategory()">Edit Category</button>
+      <button class="test-button" onclick="testViewCategoryDebts()">View Category Debts</button>
+      <button class="test-button" onclick="testDeleteCategory()">Delete Category</button>
+    </div>
+    <div id="action-results" class="debug-info">Click action buttons to test...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>📝 Form Buttons</h2>
+    <div class="button-grid">
+      <button class="test-button" onclick="testHideAddCategoryForm()">Hide Form</button>
+      <button class="test-button" onclick="testFormSubmission()">Test Form Submission</button>
+    </div>
+    <div id="form-results" class="debug-info">Click form buttons to test...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>🧭 Navigation Functions</h2>
+    <div class="button-grid">
+      <button class="test-button" onclick="testGoToRecordDebt()">Go to Record Debt</button>
+    </div>
+    <div id="nav-results" class="debug-info">Click navigation buttons to test...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>📊 Function Availability Check</h2>
+    <button class="test-button" onclick="checkAllFunctions()">Check All Functions</button>
+    <div id="function-check" class="debug-info">Click to check all functions...</div>
+  </div>
+
+  <script>
+    // Test functions for debt categories
+    function testShowAddCategoryForm() {
+      const results = document.getElementById('header-results');
+      try {
+        if (typeof window.showAddCategoryForm === 'function') {
+          window.showAddCategoryForm();
+          results.textContent = '✅ showAddCategoryForm function called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ showAddCategoryForm function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing showAddCategoryForm: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testRefreshCategories() {
+      const results = document.getElementById('header-results');
+      try {
+        if (typeof window.refreshCategories === 'function') {
+          window.refreshCategories();
+          results.textContent = '✅ refreshCategories function called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ refreshCategories function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing refreshCategories: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testSwitchView(view) {
+      const results = document.getElementById('view-results');
+      try {
+        if (typeof window.switchView === 'function') {
+          window.switchView(view);
+          results.textContent = `✅ switchView function called successfully with view: ${view}`;
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ switchView function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing switchView: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testFilterCategories() {
+      const results = document.getElementById('filter-results');
+      try {
+        if (typeof window.filterCategories === 'function') {
+          window.filterCategories();
+          results.textContent = '✅ filterCategories function called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ filterCategories function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing filterCategories: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testSortCategories() {
+      const results = document.getElementById('filter-results');
+      try {
+        if (typeof window.sortCategories === 'function') {
+          window.sortCategories();
+          results.textContent = '✅ sortCategories function called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ sortCategories function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing sortCategories: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testEditCategory() {
+      const results = document.getElementById('action-results');
+      try {
+        if (typeof window.editCategory === 'function') {
+          window.editCategory('Test Category');
+          results.textContent = '✅ editCategory function called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ editCategory function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing editCategory: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testViewCategoryDebts() {
+      const results = document.getElementById('action-results');
+      try {
+        if (typeof window.viewCategoryDebts === 'function') {
+          window.viewCategoryDebts('Test Category');
+          results.textContent = '✅ viewCategoryDebts function called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ viewCategoryDebts function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing viewCategoryDebts: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testDeleteCategory() {
+      const results = document.getElementById('action-results');
+      try {
+        if (typeof window.deleteCategory === 'function') {
+          // Don't actually call deleteCategory as it shows a confirmation dialog
+          results.textContent = '✅ deleteCategory function exists and is callable';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ deleteCategory function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing deleteCategory: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testHideAddCategoryForm() {
+      const results = document.getElementById('form-results');
+      try {
+        if (typeof window.hideAddCategoryForm === 'function') {
+          window.hideAddCategoryForm();
+          results.textContent = '✅ hideAddCategoryForm function called successfully';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ hideAddCategoryForm function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing hideAddCategoryForm: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testFormSubmission() {
+      const results = document.getElementById('form-results');
+      try {
+        // Check if form submission handler exists
+        const form = document.getElementById('add-category-form');
+        if (form && typeof form.addEventListener === 'function') {
+          results.textContent = '✅ Form submission handler exists';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ Form submission handler missing';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing form submission: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function testGoToRecordDebt() {
+      const results = document.getElementById('nav-results');
+      try {
+        if (typeof window.goToRecordDebt === 'function') {
+          // Don't actually call goToRecordDebt as it navigates away
+          results.textContent = '✅ goToRecordDebt function exists and is callable';
+          results.className = 'debug-info success';
+        } else {
+          results.textContent = '❌ goToRecordDebt function does not exist';
+          results.className = 'debug-info error';
+        }
+      } catch (error) {
+        results.textContent = `❌ Error testing goToRecordDebt: ${error.message}`;
+        results.className = 'debug-info error';
+      }
+    }
+
+    function checkAllFunctions() {
+      const results = document.getElementById('function-check');
+      let output = 'Debt Categories Functions Check:\n\n';
+      
+      const functions = [
+        'showAddCategoryForm', 'hideAddCategoryForm', 'refreshCategories',
+        'switchView', 'filterCategories', 'sortCategories',
+        'editCategory', 'viewCategoryDebts', 'deleteCategory',
+        'goToRecordDebt'
+      ];
+      
+      functions.forEach(func => {
+        if (typeof window[func] === 'function') {
+          output += `✅ ${func}\n`;
+        } else {
+          output += `❌ ${func}\n`;
+        }
+      });
+      
+      // Check module
+      if (typeof window.debtCategoriesModule !== 'undefined') {
+        output += '\n✅ debtCategoriesModule exists\n';
+      } else {
+        output += '\n❌ debtCategoriesModule missing\n';
+      }
+      
+      results.textContent = output;
+      results.className = 'debug-info';
+    }
+
+    // Check for JavaScript errors
+    window.addEventListener('error', function(e) {
+      const results = document.getElementById('function-check');
+      results.textContent = `JavaScript Error:\n${e.message}\nFile: ${e.filename}\nLine: ${e.lineno}`;
+      results.className = 'debug-info error';
+    });
+
+    // Run initial check
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        checkAllFunctions();
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
+
+
+

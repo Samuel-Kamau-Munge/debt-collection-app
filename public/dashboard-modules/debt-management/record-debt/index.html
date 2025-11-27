@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record Debt - Debt Collection System</title>
+    <link rel="stylesheet" href="/dashboard-modules/shared/module-styles.css">
+</head>
+<body>
+    <div class="dashboard-module-container">
+        <!-- Header Section -->
+        <div class="page-header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h2>💳 Record New Debt</h2>
+                    <p>Add a new debt to your collection system</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-secondary" onclick="goToViewDebts()" style="display:none">
+                        <span class="btn-icon">📋</span>
+                        View All Debts
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="form-container">
+            <form id="record-debt-form" class="module-form">
+                <div class="form-group">
+                    <label for="debtor-name">Debtor Name *</label>
+                    <input type="text" id="debtor-name" required placeholder="Enter debtor's full name">
+                </div>
+                <div class="form-group">
+                    <label for="debtor-email">Email</label>
+                    <input type="email" id="debtor-email" placeholder="debtor@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="debtor-phone">Phone Number</label>
+                    <input type="tel" id="debtor-phone" placeholder="+254 700 000 000">
+                </div>
+                <div class="form-group">
+                    <label for="reference-number">Reference Number</label>
+                    <input type="text" id="reference-number" placeholder="Invoice/Reference number">
+                </div>
+    
+                <div class="form-group">
+                    <label for="amount">Amount (Ksh) *</label>
+                    <input type="number" id="amount" step="0.01" min="0" required placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label for="interest-rate">Interest Rate (%)</label>
+                    <input type="number" id="interest-rate" step="0.01" min="0" max="100" placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label for="due-date">Due Date *</label>
+                    <input type="date" id="due-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category">
+                        <option value="">Select Category</option>
+                        <option value="business">Business</option>
+                        <option value="personal">Personal</option>
+                        <option value="loan">Loan</option>
+                        <option value="service">Service</option>
+                        <option value="rent">Rent</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="medical">Medical</option>
+                        <option value="education">Education</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="3" placeholder="Describe the nature of this debt..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="payment-terms">Payment Terms</label>
+                    <select id="payment-terms">
+                        <option value="">Select Payment Terms</option>
+                        <option value="lump_sum">Lump Sum</option>
+                        <option value="installments">Installments</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" rows="3" placeholder="Any additional information about this debt..."></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="goToViewDebts()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <span class="btn-icon">💾</span>
+                        Record Debt
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/dashboard-modules/shared/module-template.js?v=202510241022"></script>
+    <script src="/dashboard-modules/debt-management/record-debt/script.js?v=202510241022"></script>
+</body>
+</html>

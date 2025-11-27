@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Debt Collection System</title>
+    <link rel="stylesheet" href="/dashboard-modules/shared/module-styles.css">
+</head>
+<body>
+    <div class="dashboard-module-container">
+        <!-- Header Section -->
+        <div class="page-header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h2>📊 Analytics Dashboard</h2>
+                    <p>Comprehensive insights into your debt collection performance</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-icon">💳</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-debts">0</div>
+                    <div class="stat-label">Total Debts</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-amount">Ksh 0</div>
+                    <div class="stat-label">Outstanding Amount</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💸</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-payments">Ksh 0</div>
+                    <div class="stat-label">Payments Received</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="collection-rate">0%</div>
+                    <div class="stat-label">Collection Rate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <!-- Debt Collection Trends removed -->
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>🥧 Debt Categories Distribution</h3>
+                </div>
+                <div class="chart-placeholder" id="categories-chart"></div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Sections -->
+        <div class="data-sections">
+            <div class="data-section">
+                <div class="section-header">
+                    <h3>📋 Top Debt Categories</h3>
+                </div>
+                <div class="category-list" id="debt-categories">
+                    <div class="category-item">
+                        <div class="category-info">
+                            <div class="category-name">Personal Loans</div>
+                            <div class="category-count">15 debts</div>
+                        </div>
+                        <div class="category-amount">Ksh 2,450,000</div>
+                        <div class="category-trend positive">↗ +12%</div>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-info">
+                            <div class="category-name">Credit Cards</div>
+                            <div class="category-count">8 debts</div>
+                        </div>
+                        <div class="category-amount">Ksh 1,200,000</div>
+                        <div class="category-trend negative">↘ -5%</div>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-info">
+                            <div class="category-name">Business Debts</div>
+                            <div class="category-count">12 debts</div>
+                        </div>
+                        <div class="category-amount">Ksh 3,100,000</div>
+                        <div class="category-trend positive">↗ +8%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-section">
+                <div class="section-header">
+                    <h3>💰 Top Credits Categories</h3>
+                </div>
+                <div class="category-list" id="credit-categories">
+                    <div class="category-item">
+                        <div class="category-info">
+                            <div class="category-name">Cash Payments</div>
+                            <div class="category-count">25 payments</div>
+                        </div>
+                        <div class="category-amount">Ksh 1,850,000</div>
+                        <div class="category-trend positive">↗ +18%</div>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-info">
+                            <div class="category-name">Bank Transfers</div>
+                            <div class="category-count">18 payments</div>
+                        </div>
+                        <div class="category-amount">Ksh 2,200,000</div>
+                        <div class="category-trend positive">↗ +15%</div>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-info">
+                            <div class="category-name">Mobile Money</div>
+                            <div class="category-count">32 payments</div>
+                        </div>
+                        <div class="category-amount">Ksh 980,000</div>
+                        <div class="category-trend positive">↗ +22%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-section">
+                <div class="section-header">
+                    <h3>⚡ Recent Activity</h3>
+                </div>
+                <div class="activity-list" id="recent-activity">
+                    <div class="activity-item">
+                        <div class="activity-icon">💸</div>
+                        <div class="activity-content">
+                            <div class="activity-description">Payment received from John Doe</div>
+                            <div class="activity-time">2 hours ago</div>
+                        </div>
+                        <div class="activity-amount">+Ksh 25,000</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">📝</div>
+                        <div class="activity-content">
+                            <div class="activity-description">New debt recorded</div>
+                            <div class="activity-time">4 hours ago</div>
+                        </div>
+                        <div class="activity-amount">+Ksh 50,000</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">📞</div>
+                        <div class="activity-content">
+                            <div class="activity-description">Follow-up call scheduled</div>
+                            <div class="activity-time">6 hours ago</div>
+                        </div>
+                        <div class="activity-amount">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Bootstrap auth token from URL query before any external scripts run
+    (function() {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const qsToken = params.get('token');
+            if (qsToken && qsToken.length > 0) {
+                localStorage.setItem('token', qsToken);
+                // Also set alternate key used by some modules
+                localStorage.setItem('authToken', qsToken);
+            }
+        } catch (e) {
+            console.warn('Query token parse failed:', e && e.message ? e.message : e);
+        }
+    })();
+    </script>
+
+    <script src="/dashboard-modules/shared/module-template.js"></script>
+    <script src="/dashboard-modules/overview/analytics/script.js"></script>
+</body>
+</html>

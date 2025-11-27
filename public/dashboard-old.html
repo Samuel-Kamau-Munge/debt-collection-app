@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Debt Collection System</title>
+
+</head>
+<body>
+  <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+    <h2>Redirecting to Dashboard...</h2>
+    <p>If you are not redirected automatically, <a href="/dashboard">click here</a>.</p>
+  </div>
+  <nav class="navbar">
+    <div class="navbar-brand">Debt Collection System</div>
+    <ul class="navbar-menu">
+      <!-- Navigation moved to sidebar -->
+    </ul>
+    <div class="navbar-actions">
+      <div class="navbar-notifications">
+        <button id="notifications-btn">🔔 <span id="notification-count">0</span></button>
+        <div id="notifications-dropdown" class="notifications-dropdown">
+          <p>No new notifications</p>
+        </div>
+      </div>
+      <div class="user-menu">
+        <button id="user-btn">👤 User</button>
+        <div id="user-dropdown" class="user-dropdown">
+          <a href="#" id="profile">Profile</a>
+          <a href="#" id="settings">Settings</a>
+          <a href="#" id="logout">Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h3>Navigation</h3>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <h4>📊 Dashboard</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-analytics" class="nav-link">Analytics</a></li>
+            <li><a href="#" id="sidebar-reports" class="nav-link">Reports</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <h4>💳 Debt Management</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-record-debt" class="nav-link">Record New Debt</a></li>
+            <li><a href="#" id="sidebar-view-debts" class="nav-link">View All Debts</a></li>
+            <li><a href="#" id="sidebar-debt-categories" class="nav-link">Debt Categories</a></li>
+            <li><a href="#" id="sidebar-payment-schedule" class="nav-link">Payment Schedule</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <h4>💰 Credit Management</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-record-credit" class="nav-link">Record Credit</a></li>
+            <li><a href="#" id="sidebar-view-credits" class="nav-link">View Credits</a></li>
+            <li><a href="#" id="sidebar-credit-limit" class="nav-link">Credit Limits</a></li>
+            <li><a href="#" id="sidebar-credit-reports" class="nav-link">Credit Reports</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <h4>💸 Transactions</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-receive-payment" class="nav-link">Receive Payment</a></li>
+            <li><a href="#" id="sidebar-make-payment" class="nav-link">Make Payment</a></li>
+            <li><a href="#" id="sidebar-transaction-history" class="nav-link">Transaction History</a></li>
+            <li><a href="#" id="sidebar-pending-transactions" class="nav-link">Pending Transactions</a></li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <h4>⚙️ Settings</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-account-settings" class="nav-link">Account Settings</a></li>
+            <li><a href="#" id="sidebar-payment-methods" class="nav-link">Payment Methods</a></li>
+            <li><a href="#" id="sidebar-notifications" class="nav-link">Notifications</a></li>
+            <li><a href="#" id="sidebar-backup" class="nav-link">Backup & Export</a></li>
+            <li><a href="#" id="sidebar-help" class="nav-link">Help & Support</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <h1>Welcome to the Dashboard</h1>
+      <div id="content-area">
+        <p>Select a feature from the sidebar to get started.</p>
+      </div>
+    </main>
+  </div>
+  <script src="test-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Debug Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .test-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .test-button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 14px;
+    }
+    .test-button:hover {
+      background: #0056b3;
+    }
+    .test-button:active {
+      background: #004085;
+    }
+    .debug-info {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 15px;
+      margin-top: 15px;
+      font-family: monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border-color: #f5c6cb;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+      border-color: #c3e6cb;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 Button Debug Test</h1>
+  
+  <div class="test-section">
+    <h2>Basic Button Test</h2>
+    <button class="test-button" onclick="testBasicClick()">Test Basic Click</button>
+    <button class="test-button" onclick="testAlert()">Test Alert</button>
+    <button class="test-button" id="event-button">Test Event Listener</button>
+    <div id="basic-results" class="debug-info">Click buttons to test...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>Dashboard Functions Test</h2>
+    <button class="test-button" onclick="testDashboardFunctions()">Test Dashboard Functions</button>
+    <button class="test-button" onclick="testGlobalFunctions()">Test Global Functions</button>
+    <div id="dashboard-results" class="debug-info">Testing dashboard functions...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>Element Detection Test</h2>
+    <button class="test-button" onclick="testElementDetection()">Test Element Detection</button>
+    <div id="element-results" class="debug-info">Testing element detection...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>JavaScript Errors</h2>
+    <div id="error-results" class="debug-info">Checking for JavaScript errors...</div>
+  </div>
+
+  <script>
+    let clickCount = 0;
+    
+    // Test basic click functionality
+    function testBasicClick() {
+      clickCount++;
+      const results = document.getElementById('basic-results');
+      results.textContent = `Basic click test successful! Click count: ${clickCount}`;
+      results.className = 'debug-info success';
+    }
+    
+    function testAlert() {
+      alert('Alert test successful!');
+      const results = document.getElementById('basic-results');
+      results.textContent = 'Alert test successful!';
+      results.className = 'debug-info success';
+    }
+    
+    // Test dashboard functions
+    function testDashboardFunctions() {
+      const results = document.getElementById('dashboard-results');
+      let output = 'Dashboard Functions Test:\n\n';
+      
+      // Check if dashboard controller exists
+      if (typeof window.dashboardController !== 'undefined') {
+        output += '✅ DashboardController exists\n';
+        output += `   Type: ${typeof window.dashboardController}\n`;
+        output += `   Constructor: ${window.dashboardController.constructor.name}\n`;
+      } else {
+        output += '❌ DashboardController does not exist\n';
+      }
+      
+      // Check global functions
+      const globalFunctions = [
+        'logout', 'exportDebts', 'clearFilters', 'refreshDebts', 
+        'addDebt', 'editDebt', 'deleteDebt', 'viewDebt', 'recordPayment',
+        'addCredit', 'editCredit', 'deleteCredit', 'viewCredit', 'recordCreditPayment',
+        'goToRecordDebt', 'goToViewDebts', 'goToRecordCredit', 'goToViewCredits',
+        'goToTransactionHistory', 'goToAnalytics', 'goToReports',
+        'previousPage', 'nextPage', 'exportCredits', 'refreshCredits',
+        'showDebtStats', 'showCreditStats', 'showTransactionStats',
+        'searchDebts', 'searchCredits', 'dismissAlert'
+      ];
+      
+      output += '\nGlobal Functions Check:\n';
+      globalFunctions.forEach(func => {
+        if (typeof window[func] === 'function') {
+          output += `✅ ${func}\n`;
+        } else {
+          output += `❌ ${func}\n`;
+        }
+      });
+      
+      results.textContent = output;
+      results.className = 'debug-info';
+    }
+    
+    function testGlobalFunctions() {
+      const results = document.getElementById('dashboard-results');
+      let output = 'Global Functions Test:\n\n';
+      
+      try {
+        // Test a few key functions
+        if (typeof window.logout === 'function') {
+          output += '✅ logout function exists\n';
+        } else {
+          output += '❌ logout function missing\n';
+        }
+        
+        if (typeof window.exportDebts === 'function') {
+          output += '✅ exportDebts function exists\n';
+        } else {
+          output += '❌ exportDebts function missing\n';
+        }
+        
+        if (typeof window.addDebt === 'function') {
+          output += '✅ addDebt function exists\n';
+        } else {
+          output += '❌ addDebt function missing\n';
+        }
+        
+        // Test if we can call them
+        try {
+          window.exportDebts();
+          output += '✅ exportDebts executed successfully\n';
+        } catch (e) {
+          output += `❌ exportDebts failed: ${e.message}\n`;
+        }
+        
+      } catch (error) {
+        output += `❌ Error testing functions: ${error.message}\n`;
+      }
+      
+      results.textContent = output;
+      results.className = 'debug-info';
+    }
+    
+    function testElementDetection() {
+      const results = document.getElementById('element-results');
+      let output = 'Element Detection Test:\n\n';
+      
+      // Test common dashboard elements
+      const elements = [
+        'alerts-btn', 'alerts-dropdown', 'user-profile', 'user-dropdown',
+        'nav-links', 'quick-stat', 'sidebar', 'main-content'
+      ];
+      
+      elements.forEach(id => {
+        const element = document.getElementById(id) || document.querySelector(`.${id}`);
+        if (element) {
+          output += `✅ Found ${id}\n`;
+        } else {
+          output += `❌ Missing ${id}\n`;
+        }
+      });
+      
+      // Test if we're on the dashboard page
+      if (window.location.pathname.includes('dashboard')) {
+        output += '\n✅ On dashboard page\n';
+      } else {
+        output += '\n❌ Not on dashboard page\n';
+      }
+      
+      results.textContent = output;
+      results.className = 'debug-info';
+    }
+    
+    // Set up event listener for the event button
+    document.addEventListener('DOMContentLoaded', function() {
+      const eventButton = document.getElementById('event-button');
+      if (eventButton) {
+        eventButton.addEventListener('click', function() {
+          const results = document.getElementById('basic-results');
+          results.textContent = 'Event listener test successful!';
+          results.className = 'debug-info success';
+        });
+      }
+    });
+    
+    // Check for JavaScript errors
+    window.addEventListener('error', function(e) {
+      const errorResults = document.getElementById('error-results');
+      errorResults.textContent = `JavaScript Error:\n${e.message}\nFile: ${e.filename}\nLine: ${e.lineno}`;
+      errorResults.className = 'debug-info error';
+    });
+    
+    // Run initial tests
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        testDashboardFunctions();
+        testElementDetection();
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

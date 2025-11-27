@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Debt Update</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #27ae60; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+        button:hover { background: #229954; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Debt Update API</h1>
+        <p>This page tests the debt update functionality directly to verify the API is working.</p>
+        
+        <div class="form-group">
+            <label for="debtId">Debt ID:</label>
+            <input type="number" id="debtId" value="14" placeholder="Enter debt ID">
+        </div>
+        
+        <div class="form-group">
+            <label for="debtorName">Debtor Name:</label>
+            <input type="text" id="debtorName" value="Test User" placeholder="Enter debtor name">
+        </div>
+        
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" value="1500" placeholder="Enter amount">
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" id="description" value="Test Description" placeholder="Enter description">
+        </div>
+        
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select id="status">
+                <option value="active">Active</option>
+                <option value="paid">Paid</option>
+                <option value="overdue">Overdue</option>
+            </select>
+        </div>
+        
+        <button onclick="testDebtUpdate()">🚀 Test Debt Update</button>
+        <button onclick="getDebtDetails()">📋 Get Debt Details</button>
+        <button onclick="clearResults()">🗑️ Clear Results</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Get token from localStorage (from main app)
+        function getToken() {
+            return localStorage.getItem('token') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzU3NDQ0Njc0fQ.etfpU2xuVdIeyMys9DK3wzEP0yOqNQzYcsUHiy025pc';
+        }
+
+        function showResult(message, type = 'info') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<div class="result ${type}">${message}</div>`;
+        }
+
+        async function testDebtUpdate() {
+            const debtId = document.getElementById('debtId').value;
+            const token = getToken();
+            
+            if (!debtId) {
+                showResult('Please enter a debt ID', 'error');
+                return;
+            }
+
+            const formData = {
+                debtor_name: document.getElementById('debtorName').value,
+                amount: parseFloat(document.getElementById('amount').value),
+                description: document.getElementById('description').value,
+                status: document.getElementById('status').value
+            };
+
+            showResult('🔄 Sending request...', 'info');
+
+            try {
+                console.log('Testing debt update with:', formData);
+                
+                const response = await fetch(`/api/debts/${debtId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Error response:', errorText);
+                    showResult(`❌ Error: ${response.status} - ${errorText}`, 'error');
+                    return;
+                }
+
+                const result = await response.json();
+                console.log('Update result:', result);
+                
+                showResult(`✅ ${result.message}<br><br>📊 Updated Data:<br>• Debtor: ${formData.debtor_name}<br>• Amount: Ksh ${formData.amount.toLocaleString()}<br>• Description: ${formData.description}<br>• Status: ${formData.status}`, 'success');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showResult(`❌ Network Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function getDebtDetails() {
+            const debtId = document.getElementById('debtId').value;
+            const token = getToken();
+            
+            if (!debtId) {
+                showResult('Please enter a debt ID', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/debts/${debtId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    showResult(`❌ Error: ${response.status} - ${errorText}`, 'error');
+                    return;
+                }
+
+                const result = await response.json();
+                const debt = result.debt;
+                
+                showResult(`📋 Current Debt Details:<br>• ID: ${debt.id}<br>• Debtor: ${debt.debtor_name}<br>• Amount: Ksh ${parseFloat(debt.amount).toLocaleString()}<br>• Description: ${debt.description || 'None'}<br>• Status: ${debt.status}<br>• Created: ${new Date(debt.created_at).toLocaleString()}`, 'info');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showResult(`❌ Network Error: ${error.message}`, 'error');
+            }
+        }
+
+        function clearResults() {
+            document.getElementById('result').innerHTML = '';
+        }
+
+        // Auto-populate with current debt data
+        window.onload = function() {
+            getDebtDetails();
+        };
+    </script>
+</body>
+</html>

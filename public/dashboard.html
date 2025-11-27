@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Debt Collection System</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-brand">Debt Collection System</div>
+    <ul class="navbar-menu">
+      <!-- Navigation moved to sidebar -->
+    </ul>
+    <div class="navbar-actions">
+      <div class="navbar-alerts">
+        <button id="alerts-btn">🔔 <span id="alert-count">0</span></button>
+        <div id="alerts-dropdown" class="alerts-dropdown">
+          <p>No alerts</p>
+        </div>
+      </div>
+      <div class="navbar-user">
+        <button id="user-btn">👤 User</button>
+        <div id="user-dropdown" class="user-dropdown">
+          <a href="#" id="logout">Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h3>Navigation</h3>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <h4>📊 Dashboard</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-analytics" class="nav-link" data-module="overview/analytics">Analytics</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <h4>💳 Debt Management</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-record-debt" class="nav-link" data-module="debt-management/record-debt">Record New Debt</a></li>
+            <li><a href="#" id="sidebar-payment-schedule" class="nav-link" data-module="debt-management/payment-schedule">Payment Schedule</a></li>
+            <li><a href="#" id="sidebar-receive-payment" class="nav-link" data-module="debt-management/receive-payment">Receive Payment</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <h4>💰 Credit Management</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-record-credit" class="nav-link" data-module="credit-management/record-credit">Record Credit</a></li>
+            <li><a href="#" id="sidebar-credit-reports" class="nav-link" data-module="credit-management/credit-reports">Credit Reports</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <h4>💸 Transactions</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-make-payment" class="nav-link" data-module="transaction-management/make-payment">Make Payment</a></li>
+            <li><a href="#" id="sidebar-transaction-history" class="nav-link" data-module="transaction-management/transaction-history">Transaction History</a></li>
+            <li><a href="#" id="sidebar-pending-transactions" class="nav-link" data-module="transaction-management/pending-transactions">Pending Transactions</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <div id="content-area">
+        <!-- Content will be loaded here -->
+      </div>
+    </main>
+  </div>
+  <script src="dashboard-modules/general/dashboard.js"></script>
+</body>
+</html>

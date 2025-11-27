@@ -1,0 +1,118 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #000000;
+  margin: 0;
+  padding: 0;
+  animation: fadeIn 1s ease-in;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #000000;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8.5px);
+  -webkit-backdrop-filter: blur(8.5px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  animation: slideUp 0.5s ease forwards;
+  opacity: 0;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #e0e0e0;
+  transition: color 0.3s ease;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  transition: box-shadow 0.3s ease;
+  background: #000000;
+  color: white;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+  outline: none;
+  background: #000000;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #000000;
+  border: 1px solid #ffffff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #ffffff;
+  color: #000000;
+  transform: translateY(-1px);
+}
+
+#message {
+  margin-top: 15px;
+  text-align: center;
+  color: #ffdddd;
+  min-height: 20px;
+  font-weight: bold;
+}
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #cccccc;
+  text-decoration: underline;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

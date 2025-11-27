@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Schedule - Debt Collection System</title>
+    <link rel="stylesheet" href="/dashboard-modules/shared/module-styles.css">
+</head>
+<body>
+    <div class="dashboard-module-container">
+        <!-- Header Section -->
+        <div class="page-header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h2>📅 Payment Schedule</h2>
+                    <p>Track upcoming and pending payments</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary" onclick="goToReceivePayment()">
+                        <span class="btn-icon">💰</span>
+                        Receive Payment
+                    </button>
+                    <button class="btn-secondary" onclick="exportSchedule()">
+                        <span class="btn-icon">📤</span>
+                        Export Schedule
+                    </button>
+                    <button class="btn-secondary" onclick="refreshSchedule()">
+                        <span class="btn-icon">🔄</span>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats" id="schedule-stats">
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="upcoming-count">0</div>
+                    <div class="stat-label">Upcoming</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚠️</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="overdue-count">0</div>
+                    <div class="stat-label">Overdue</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-amount">Ksh 0</div>
+                    <div class="stat-label">Total Amount</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="completed-count">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="schedule-search" placeholder="Search payments...">
+            </div>
+            <div class="filter-controls">
+                <select id="time-filter">
+                    <option value="all">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="overdue">Overdue</option>
+                </select>
+                <select id="status-filter">
+                    <option value="">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="due">Due Today</option>
+                    <option value="overdue">Overdue</option>
+                    <option value="paid">Paid</option>
+                </select>
+                <button class="btn-secondary" onclick="clearFilters()">Clear Filters</button>
+            </div>
+        </div>
+
+        <!-- Schedule Tabs -->
+        <div class="schedule-tabs">
+            <button class="btn-secondary active" onclick="switchTab('upcoming')" data-tab="upcoming">
+                <span class="btn-icon">📅</span>
+                Upcoming Payments
+            </button>
+            <button class="btn-secondary" onclick="switchTab('overdue')" data-tab="overdue">
+                <span class="btn-icon">⚠️</span>
+                Overdue Payments
+            </button>
+            <button class="btn-secondary" onclick="switchTab('completed')" data-tab="completed">
+                <span class="btn-icon">✅</span>
+                Completed Payments
+            </button>
+        </div>
+
+        <!-- Schedule Content -->
+        <div class="content-section">
+            <div class="content-grid" id="schedule-list">
+                <div class="loading-message">Loading payment schedule...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/dashboard-modules/shared/api-utils.js"></script>
+    <script src="/dashboard-modules/shared/module-template.js?v=202510241022"></script>
+    <script src="/dashboard-modules/debt-management/payment-schedule/script.js?v=202510241022"></script>
+</body>
+</html>

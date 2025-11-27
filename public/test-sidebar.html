@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sidebar Features</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Sidebar Features Test</h1>
+        <p>This page tests the various sidebar features and API endpoints.</p>
+        
+        <div class="test-section">
+            <h3>1. Authentication Test</h3>
+            <button class="test-button" onclick="testAuth()">Test Login</button>
+            <div id="auth-result" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>2. API Endpoints Test</h3>
+            <button class="test-button" onclick="testDebtsAPI()">Test Debts API</button>
+            <button class="test-button" onclick="testDashboardAPI()">Test Dashboard API</button>
+            <button class="test-button" onclick="testCreditsAPI()">Test Credits API</button>
+            <div id="api-result" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>3. Sidebar Navigation Test</h3>
+            <button class="test-button" onclick="testSidebarNavigation()">Test Sidebar Functions</button>
+            <div id="sidebar-result" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>4. Payment Refresh Test</h3>
+            <button class="test-button" onclick="testPaymentRefresh()">Test Payment Refresh</button>
+            <div id="payment-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        
+        function getAuthHeaders() {
+            const token = localStorage.getItem('token');
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+        }
+        
+        async function apiCall(endpoint, options = {}) {
+            try {
+                console.log(`Making API call to: ${API_BASE}${endpoint}`);
+                const headers = getAuthHeaders();
+                
+                const response = await fetch(`${API_BASE}${endpoint}`, {
+                    headers,
+                    ...options
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('API call failed:', error);
+                throw error;
+            }
+        }
+        
+        async function testAuth() {
+            const resultDiv = document.getElementById('auth-result');
+            resultDiv.innerHTML = 'Testing authentication...';
+            
+            try {
+                // Test with a simple API call that requires auth
+                const response = await apiCall('/debts');
+                resultDiv.innerHTML = `<div class="success">✅ Authentication successful! Token is valid.</div>`;
+            } catch (error) {
+                if (error.message.includes('Access token required')) {
+                    resultDiv.innerHTML = `<div class="error">❌ No authentication token found. Please login first.</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ Authentication failed: ${error.message}</div>`;
+                }
+            }
+        }
+        
+        async function testDebtsAPI() {
+            const resultDiv = document.getElementById('api-result');
+            resultDiv.innerHTML = 'Testing Debts API...';
+            
+            try {
+                const response = await apiCall('/debts');
+                resultDiv.innerHTML = `<div class="success">✅ Debts API working! Found ${response.debts ? response.debts.length : 0} debts.</div>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Debts API failed: ${error.message}</div>`;
+            }
+        }
+        
+        async function testDashboardAPI() {
+            const resultDiv = document.getElementById('api-result');
+            resultDiv.innerHTML = 'Testing Dashboard API...';
+            
+            try {
+                const response = await apiCall('/dashboard/overview');
+                resultDiv.innerHTML = `<div class="success">✅ Dashboard API working! Overview data loaded.</div>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Dashboard API failed: ${error.message}</div>`;
+            }
+        }
+        
+        async function testCreditsAPI() {
+            const resultDiv = document.getElementById('api-result');
+            resultDiv.innerHTML = 'Testing Credits API...';
+            
+            try {
+                const response = await apiCall('/credits');
+                resultDiv.innerHTML = `<div class="success">✅ Credits API working! Found ${response.credits ? response.credits.length : 0} credits.</div>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Credits API failed: ${error.message}</div>`;
+            }
+        }
+        
+        function testSidebarNavigation() {
+            const resultDiv = document.getElementById('sidebar-result');
+            resultDiv.innerHTML = 'Testing Sidebar Navigation...';
+            
+            try {
+                // Test if sidebar functions exist
+                const functions = [
+                    'setActiveNavLink',
+                    'refreshDebts',
+                    'loadViewDebtsData',
+                    'refreshViewDebtsPage',
+                    'updateDebtDataAfterPayment'
+                ];
+                
+                let results = [];
+                functions.forEach(func => {
+                    if (typeof window[func] === 'function') {
+                        results.push(`✅ ${func} - Available`);
+                    } else {
+                        results.push(`❌ ${func} - Missing`);
+                    }
+                });
+                
+                resultDiv.innerHTML = `<div class="success">Sidebar Functions Test:<br>${results.join('<br>')}</div>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Sidebar test failed: ${error.message}</div>`;
+            }
+        }
+        
+        function testPaymentRefresh() {
+            const resultDiv = document.getElementById('payment-result');
+            resultDiv.innerHTML = 'Testing Payment Refresh Functions...';
+            
+            try {
+                // Test if payment refresh functions exist
+                const functions = [
+                    'updateDebtDataAfterPayment',
+                    'refreshViewDebtsPage',
+                    'refreshCurrentDebtContext',
+                    'loadViewDebtsData'
+                ];
+                
+                let results = [];
+                functions.forEach(func => {
+                    if (typeof window[func] === 'function') {
+                        results.push(`✅ ${func} - Available`);
+                    } else {
+                        results.push(`❌ ${func} - Missing`);
+                    }
+                });
+                
+                resultDiv.innerHTML = `<div class="success">Payment Refresh Functions Test:<br>${results.join('<br>')}</div>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Payment refresh test failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Load dashboard.js to test functions
+        const script = document.createElement('script');
+        script.src = '/dashboard.js';
+        script.onload = () => {
+            console.log('Dashboard.js loaded successfully');
+        };
+        script.onerror = () => {
+            console.error('Failed to load dashboard.js');
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>

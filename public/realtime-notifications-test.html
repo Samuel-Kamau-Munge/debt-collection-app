@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Notifications Test - Debt Collection System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #34495e;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        button.success {
+            background: #27ae60;
+        }
+        button.warning {
+            background: #f39c12;
+        }
+        button.danger {
+            background: #e74c3c;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .result.success {
+            background: #d5f4e6;
+            border: 1px solid #27ae60;
+            color: #27ae60;
+        }
+        .result.error {
+            background: #fadbd8;
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+        .result.info {
+            background: #d6eaf8;
+            border: 1px solid #3498db;
+            color: #3498db;
+        }
+        .status {
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .status.connected {
+            background: #d5f4e6;
+            border: 1px solid #27ae60;
+            color: #27ae60;
+        }
+        .status.disconnected {
+            background: #fadbd8;
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+        .notification-item {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: white;
+        }
+        .notification-item.unread {
+            border-left: 4px solid #e74c3c;
+            background: #fff5f5;
+        }
+        .notification-item.read {
+            border-left: 4px solid #27ae60;
+            background: #f5fff5;
+        }
+        .notification-title {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .notification-message {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .notification-time {
+            color: #95a5a6;
+            font-size: 12px;
+            text-align: right;
+        }
+        .count-display {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔔 Real-time Notifications Test</h1>
+        
+        <div id="status" class="status">
+            <p>Checking authentication...</p>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 Current Notification Status</h3>
+            <div id="countDisplay" class="count-display">
+                Loading...
+            </div>
+            <button onclick="refreshNotifications()">Refresh Notifications</button>
+            <button onclick="getNotificationCount()">Get Count Only</button>
+            <div id="statusResult" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📋 Recent Notifications</h3>
+            <button onclick="loadNotifications()">Load Notifications</button>
+            <button onclick="markAllAsRead()">Mark All as Read</button>
+            <div id="notificationsList"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🧪 Test Actions</h3>
+            <button onclick="createTestNotification()">Create Test Notification</button>
+            <button onclick="simulateTransaction()">Simulate Transaction</button>
+            <button onclick="simulateOverduePayment()">Simulate Overdue Payment</button>
+            <div id="testResult" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>⚙️ Real-time Controls</h3>
+            <button onclick="startPolling()">Start Polling</button>
+            <button onclick="stopPolling()">Stop Polling</button>
+            <button onclick="togglePolling()">Toggle Polling</button>
+            <div id="pollingStatus" class="result info">Polling: Stopped</div>
+        </div>
+    </div>
+
+    <script>
+        let pollingInterval = null;
+        let isPolling = false;
+        
+        // Get auth token
+        function getAuthToken() {
+            let token = localStorage.getItem('token');
+            if (!token) {
+                token = prompt('Please enter your auth token (or login to dashboard first):');
+                if (token) {
+                    localStorage.setItem('token', token);
+                }
+            }
+            return token;
+        }
+        
+        // Make API request
+        async function apiRequest(endpoint, method = 'GET', data = null) {
+            const token = getAuthToken();
+            if (!token) {
+                throw new Error('No auth token available');
+            }
+            
+            const options = {
+                method,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            };
+            
+            if (data) {
+                options.body = JSON.stringify(data);
+            }
+            
+            const response = await fetch(`/api${endpoint}`, options);
+            const result = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(result.error || 'Request failed');
+            }
+            
+            return result;
+        }
+        
+        // Check authentication status
+        async function checkAuth() {
+            try {
+                const token = getAuthToken();
+                if (token) {
+                    document.getElementById('status').className = 'status connected';
+                    document.getElementById('status').innerHTML = '<h3>✅ Authenticated</h3><p>Ready to test real-time notifications</p>';
+                } else {
+                    document.getElementById('status').className = 'status disconnected';
+                    document.getElementById('status').innerHTML = '<h3>❌ Not Authenticated</h3><p>Please login to test notifications</p>';
+                }
+            } catch (error) {
+                document.getElementById('status').className = 'status disconnected';
+                document.getElementById('status').innerHTML = '<h3>❌ Authentication Error</h3><p>' + error.message + '</p>';
+            }
+        }
+        
+        // Get notification count
+        async function getNotificationCount() {
+            try {
+                const result = await apiRequest('/notifications/unread-count');
+                
+                document.getElementById('countDisplay').innerHTML = `
+                    <div>📊 Unread Notifications</div>
+                    <div style="font-size: 48px; color: #e74c3c;">${result.unreadCount}</div>
+                `;
+                
+                document.getElementById('statusResult').className = 'result success';
+                document.getElementById('statusResult').innerHTML = `✅ Count loaded: ${result.unreadCount} unread notifications`;
+            } catch (error) {
+                document.getElementById('statusResult').className = 'result error';
+                document.getElementById('statusResult').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Load notifications
+        async function loadNotifications() {
+            try {
+                const result = await apiRequest('/notifications?limit=10');
+                
+                const notificationsList = document.getElementById('notificationsList');
+                notificationsList.innerHTML = '';
+                
+                if (result.notifications.length === 0) {
+                    notificationsList.innerHTML = '<div class="result info">No notifications found</div>';
+                    return;
+                }
+                
+                result.notifications.forEach(notification => {
+                    const notificationDiv = document.createElement('div');
+                    notificationDiv.className = `notification-item ${notification.is_read ? 'read' : 'unread'}`;
+                    notificationDiv.innerHTML = `
+                        <div class="notification-title">${notification.title}</div>
+                        <div class="notification-message">${notification.message}</div>
+                        <div class="notification-time">${formatTime(notification.created_at)}</div>
+                    `;
+                    
+                    if (!notification.is_read) {
+                        notificationDiv.onclick = () => markAsRead(notification.id);
+                        notificationDiv.style.cursor = 'pointer';
+                    }
+                    
+                    notificationsList.appendChild(notificationDiv);
+                });
+                
+                // Update count display
+                document.getElementById('countDisplay').innerHTML = `
+                    <div>📊 Unread Notifications</div>
+                    <div style="font-size: 48px; color: #e74c3c;">${result.pagination.unreadCount}</div>
+                `;
+                
+            } catch (error) {
+                document.getElementById('notificationsList').innerHTML = `<div class="result error">Error: ${error.message}</div>`;
+            }
+        }
+        
+        // Mark notification as read
+        async function markAsRead(notificationId) {
+            try {
+                await apiRequest(`/notifications/${notificationId}/read`, 'PUT');
+                loadNotifications(); // Refresh the list
+            } catch (error) {
+                console.error('Error marking notification as read:', error);
+            }
+        }
+        
+        // Mark all as read
+        async function markAllAsRead() {
+            try {
+                await apiRequest('/notifications/mark-all-read', 'PUT');
+                loadNotifications(); // Refresh the list
+            } catch (error) {
+                console.error('Error marking all as read:', error);
+            }
+        }
+        
+        // Refresh notifications
+        function refreshNotifications() {
+            getNotificationCount();
+            loadNotifications();
+        }
+        
+        // Create test notification
+        async function createTestNotification() {
+            try {
+                const result = await apiRequest('/notifications', 'POST', {
+                    type: 'system',
+                    title: 'Test Notification',
+                    message: `Test notification created at ${new Date().toLocaleTimeString()}`
+                });
+                
+                document.getElementById('testResult').className = 'result success';
+                document.getElementById('testResult').innerHTML = `✅ Test notification created! ID: ${result.id}`;
+                
+                // Refresh notifications
+                setTimeout(refreshNotifications, 1000);
+            } catch (error) {
+                document.getElementById('testResult').className = 'result error';
+                document.getElementById('testResult').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Simulate transaction
+        async function simulateTransaction() {
+            try {
+                // This would typically create a transaction which triggers notifications
+                document.getElementById('testResult').className = 'result info';
+                document.getElementById('testResult').innerHTML = '🔄 Simulating transaction... Check notifications in a few seconds.';
+                
+                // Refresh notifications after a delay
+                setTimeout(refreshNotifications, 2000);
+            } catch (error) {
+                document.getElementById('testResult').className = 'result error';
+                document.getElementById('testResult').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Simulate overdue payment
+        async function simulateOverduePayment() {
+            try {
+                const result = await apiRequest('/notifications', 'POST', {
+                    type: 'payment_overdue',
+                    title: 'Urgent: Payment Overdue',
+                    message: `Simulated overdue payment of Ksh ${Math.floor(Math.random() * 10000) + 1000} from Test User`
+                });
+                
+                document.getElementById('testResult').className = 'result warning';
+                document.getElementById('testResult').innerHTML = `⚠️ Overdue payment notification created! ID: ${result.id}`;
+                
+                // Refresh notifications
+                setTimeout(refreshNotifications, 1000);
+            } catch (error) {
+                document.getElementById('testResult').className = 'result error';
+                document.getElementById('testResult').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Start polling
+        function startPolling() {
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+            }
+            
+            pollingInterval = setInterval(() => {
+                console.log('🔄 Polling for notifications...');
+                refreshNotifications();
+            }, 5000); // Poll every 5 seconds for testing
+            
+            isPolling = true;
+            document.getElementById('pollingStatus').innerHTML = 'Polling: <span style="color: #27ae60;">Active (every 5s)</span>';
+        }
+        
+        // Stop polling
+        function stopPolling() {
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+                pollingInterval = null;
+            }
+            
+            isPolling = false;
+            document.getElementById('pollingStatus').innerHTML = 'Polling: <span style="color: #e74c3c;">Stopped</span>';
+        }
+        
+        // Toggle polling
+        function togglePolling() {
+            if (isPolling) {
+                stopPolling();
+            } else {
+                startPolling();
+            }
+        }
+        
+        // Format time
+        function formatTime(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+            
+            if (diffInMinutes < 1) return 'Just now';
+            if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+            if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
+            return date.toLocaleDateString();
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            refreshNotifications();
+        });
+    </script>
+</body>
+</html>
+
+
+
+

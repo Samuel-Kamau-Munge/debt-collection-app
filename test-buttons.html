@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #1a1a1a; 
+            color: white; 
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #28a745;
+            border-radius: 8px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #20c997;
+        }
+        .chart-btn.active {
+            background: #20c997;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Button Functionality Test</h1>
+        
+        <div class="test-section">
+            <h3>Chart Period Buttons</h3>
+            <button class="chart-btn active" data-period="30d">30D</button>
+            <button class="chart-btn" data-period="90d">90D</button>
+            <button class="chart-btn" data-period="1y">1Y</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>View All Buttons</h3>
+            <button class="view-all-btn">View All Categories</button>
+            <button class="view-all-btn">View All Activity</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>Date Picker</h3>
+            <div class="date-range">
+                <span>Last 30 days</span>
+                <button class="date-picker">📅</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Export Buttons</h3>
+            <button class="export-btn">📊 Export All</button>
+            <button class="print-btn">🖨️ Print</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>Metric Cards</h3>
+            <div class="metric-card" style="padding: 20px; border: 1px solid #28a745; margin: 10px 0; cursor: pointer;">
+                <h3>Total Debts</h3>
+                <p>Click me for details</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load the analytics script
+        fetch('/dashboard/overview/analytics/script.js')
+            .then(response => response.text())
+            .then(script => {
+                console.log('Loading analytics script...');
+                eval(script);
+            })
+            .catch(error => {
+                console.error('Error loading analytics script:', error);
+            });
+    </script>
+</body>
+</html>

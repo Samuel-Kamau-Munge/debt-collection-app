@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Button Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #1a1a1a; 
+            color: white; 
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #20c997;
+        }
+        .chart-btn.active {
+            background: #20c997;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Button Test</h1>
+    
+    <div>
+        <h3>Chart Period Buttons</h3>
+        <button class="chart-btn active" data-period="30d">30D</button>
+        <button class="chart-btn" data-period="90d">90D</button>
+        <button class="chart-btn" data-period="1y">1Y</button>
+    </div>
+    
+    <div>
+        <h3>View All Buttons</h3>
+        <button class="view-all-btn">View All Categories</button>
+        <button class="view-all-btn">View All Activity</button>
+    </div>
+    
+    <div>
+        <h3>Date Picker</h3>
+        <div class="date-range">
+            <span>Last 30 days</span>
+            <button class="date-picker">📅</button>
+        </div>
+    </div>
+
+    <script>
+        console.log('Simple test script loaded');
+        
+        // Simple button functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM ready, setting up buttons...');
+            
+            // Chart period controls
+            const chartBtns = document.querySelectorAll('.chart-btn');
+            console.log('Found chart buttons:', chartBtns.length);
+            chartBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    console.log('Chart button clicked:', this.dataset.period);
+                    chartBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    alert(`Period changed to: ${this.dataset.period}`);
+                });
+            });
+            
+            // View all buttons
+            const viewAllBtns = document.querySelectorAll('.view-all-btn');
+            console.log('Found view all buttons:', viewAllBtns.length);
+            viewAllBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    console.log('View all button clicked');
+                    alert('View all clicked!');
+                });
+            });
+            
+            // Date picker
+            const datePicker = document.querySelector('.date-picker');
+            if (datePicker) {
+                console.log('Found date picker');
+                datePicker.addEventListener('click', function() {
+                    console.log('Date picker clicked');
+                    alert('Date picker clicked!');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

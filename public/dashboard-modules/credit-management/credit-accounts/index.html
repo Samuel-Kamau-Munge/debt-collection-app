@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Accounts - Debt Collection System</title>
+    <link rel="stylesheet" href="/dashboard-modules/credit-management/credit-accounts/styles.css">
+</head>
+<body>
+    <div class="credit-accounts-container">
+        <!-- Header Section -->
+        <div class="page-header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h2>🏦 Credit Accounts</h2>
+                    <p>Manage your credit accounts, limits, and utilization</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary" onclick="createNewAccount()">
+                        <span class="btn-icon">➕</span>
+                        New Account
+                    </button>
+                    <!-- Added: Add Creditor button -->
+                    <button class="btn-primary" onclick="openNewCreditorModal()">
+                        <span class="btn-icon">👤</span>
+                        Add Creditor
+                    </button>
+                    <button class="btn-secondary" onclick="refreshAccounts()">
+                        <span class="btn-icon">🔄</span>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-accounts">0</div>
+                    <div class="stat-label">Total Accounts</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-limit">Ksh 0</div>
+                    <div class="stat-label">Total Credit Limit</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="available-credit">Ksh 0</div>
+                    <div class="stat-label">Available Credit</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="avg-utilization">0%</div>
+                    <div class="stat-label">Avg Utilization</div>
+                </div>
+            </div>
+            <!-- New: Total Creditors -->
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-creditors">0</div>
+                    <div class="stat-label">Total Creditors</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters and Search -->
+        <div class="filters-section">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-accounts" placeholder="Search accounts..." onkeyup="filterAccounts()">
+            </div>
+            <div class="filter-controls">
+                <select id="status-filter" onchange="filterAccounts()">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="suspended">Suspended</option>
+                </select>
+                <select id="sort-accounts" onchange="sortAccounts()">
+                    <option value="name">Sort by Name</option>
+                    <option value="limit">Sort by Credit Limit</option>
+                    <option value="utilization">Sort by Utilization</option>
+                    <option value="created">Sort by Created Date</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Accounts Grid -->
+        <div class="accounts-section">
+            <div class="accounts-grid" id="accounts-grid">
+                <div class="loading-message">Loading credit accounts...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Account Modal -->
+    <div id="new-account-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Credit Account</h3>
+                <button class="close-btn" onclick="closeNewAccountModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="new-account-form" class="account-form">
+                    <div class="form-group">
+                        <label for="account-name">Account Name *</label>
+                        <input type="text" id="account-name" required placeholder="e.g., Business Credit Line">
+                    </div>
+                    <div class="form-group">
+                        <label for="credit-limit">Credit Limit (Ksh) *</label>
+                        <input type="number" id="credit-limit" required min="1" placeholder="100000">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category">
+                            <option value="">Select Category</option>
+                            <option value="business">Business</option>
+                            <option value="personal">Personal</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="investment">Investment</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" placeholder="Optional description..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeNewAccountModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Create Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Creditor Modal -->
+    <div id="new-creditor-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Creditor</h3>
+                <button class="close-btn" onclick="closeNewCreditorModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="new-creditor-form" class="account-form">
+                    <div class="form-group">
+                        <label for="creditor-name">Creditor Name *</label>
+                        <input type="text" id="creditor-name" required placeholder="e.g., ABC Finance Co.">
+                    </div>
+                    <div class="form-group">
+                        <label for="creditor-email">Email</label>
+                        <input type="email" id="creditor-email" placeholder="e.g., support@abcfinance.co">
+                    </div>
+                    <div class="form-group">
+                        <label for="creditor-phone">Phone</label>
+                        <input type="tel" id="creditor-phone" placeholder="e.g., +254700000000">
+                    </div>
+                    <div class="form-group">
+                        <label for="creditor-description">Description</label>
+                        <textarea id="creditor-description" placeholder="Optional notes about this creditor..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeNewCreditorModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Add Creditor</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Details Modal -->
+    <div id="account-details-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h3 id="account-details-title">Account Details</h3>
+                <button class="close-btn" onclick="closeAccountDetailsModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="account-details-body">
+                <!-- Account details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/dashboard-modules/shared/api-utils.js"></script>
+    <script src="/dashboard-modules/credit-management/credit-accounts/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Visibility Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { color: green; }
+        .error { color: red; }
+        iframe { width: 100%; height: 400px; border: 1px solid #ddd; }
+        .test-results { margin-top: 20px; }
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Dashboard Module Visibility Test</h1>
+    
+    <div class="test-section">
+        <h2>Main Dashboard</h2>
+        <p>Testing main dashboard with sidebar navigation...</p>
+        <iframe src="http://localhost:5000/dashboard"></iframe>
+    </div>
+    
+    <div class="test-section">
+        <h2>Individual Module Tests</h2>
+        <div class="module-grid">
+            <div>
+                <h3>Analytics</h3>
+                <iframe src="http://localhost:5000/dashboard/overview/analytics"></iframe>
+            </div>
+            <div>
+                <h3>Record Debt</h3>
+                <iframe src="http://localhost:5000/dashboard/debt-management/record-debt"></iframe>
+            </div>
+            <div>
+                <h3>View Debts</h3>
+                <!-- View All Debts page removed -->
+            </div>
+            <div>
+                <h3>Payment Schedule</h3>
+                <iframe src="http://localhost:5000/dashboard/debt-management/payment-schedule"></iframe>
+            </div>
+            <div>
+                <h3>Record Credit</h3>
+                <iframe src="http://localhost:5000/dashboard/credit-management/record-credit"></iframe>
+            </div>
+            <div>
+                <h3>View Credits</h3>
+                <iframe src="http://localhost:5000/dashboard/credit-management/view-credits"></iframe>
+            </div>
+            <div>
+                <h3>Credit Limits</h3>
+                <iframe src="http://localhost:5000/dashboard/credit-management/credit-limits"></iframe>
+            </div>
+            <div>
+                <h3>Credit Reports</h3>
+                <iframe src="http://localhost:5000/dashboard/credit-management/credit-reports"></iframe>
+            </div>
+            <div>
+                <h3>Receive Payment</h3>
+                <iframe src="http://localhost:5000/dashboard/transaction-management/receive-payment"></iframe>
+            </div>
+            <div>
+                <h3>Make Payment</h3>
+                <iframe src="http://localhost:5000/dashboard/transaction-management/make-payment"></iframe>
+            </div>
+            <div>
+                <h3>Transaction History</h3>
+                <iframe src="http://localhost:5000/dashboard/transaction-management/transaction-history"></iframe>
+            </div>
+            <div>
+                <h3>Pending Transactions</h3>
+                <iframe src="http://localhost:5000/dashboard/transaction-management/pending-transactions"></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-results">
+        <h2>Test Results</h2>
+        <div id="results"></div>
+    </div>
+    
+    <script>
+        // Test module loading functionality
+        async function testModuleLoading() {
+            const modules = [
+                'overview/analytics',
+                'overview/reports',
+                'debt-management/record-debt',
+                
+                'debt-management/payment-schedule',
+                'credit-management/record-credit',
+                'credit-management/view-credits',
+                'credit-management/credit-limits',
+                'credit-management/credit-reports',
+                'transaction-management/receive-payment',
+                'transaction-management/make-payment',
+                'transaction-management/transaction-history',
+                'transaction-management/pending-transactions'
+            ];
+            
+            const results = document.getElementById('results');
+            let successCount = 0;
+            let totalCount = modules.length;
+            
+            results.innerHTML += '<h3>Module Loading Test:</h3>';
+            
+            for (const module of modules) {
+                try {
+                    const response = await fetch(`http://localhost:5000/dashboard/${module}`);
+                    if (response.ok) {
+                        results.innerHTML += `<p class="success">✅ ${module} - OK (${response.status})</p>`;
+                        successCount++;
+                    } else {
+                        results.innerHTML += `<p class="error">❌ ${module} - Error: ${response.status}</p>`;
+                    }
+                } catch (error) {
+                    results.innerHTML += `<p class="error">❌ ${module} - Error: ${error.message}</p>`;
+                }
+            }
+            
+            results.innerHTML += `<h3>Summary: ${successCount}/${totalCount} modules working</h3>`;
+        }
+        
+        // Test CSS and JS loading
+        async function testAssetLoading() {
+            const assets = [
+                'dashboard/overview/analytics/styles.css',
+                'dashboard/overview/analytics/script.js',
+                'dashboard/debt-management/record-debt/styles.css',
+                'dashboard/debt-management/record-debt/script.js',
+                
+                'dashboard/credit-management/record-credit/styles.css',
+                'dashboard/credit-management/record-credit/script.js',
+                'dashboard/transaction-management/receive-payment/styles.css',
+                'dashboard/transaction-management/receive-payment/script.js',
+                'dashboard-modules/general/dashboard.css',
+                'dashboard-modules/general/dashboard.js'
+            ];
+            
+            const results = document.getElementById('results');
+            results.innerHTML += '<h3>Asset Loading Test:</h3>';
+            
+            for (const asset of assets) {
+                try {
+                    const response = await fetch(`http://localhost:5000/${asset}`);
+                    if (response.ok) {
+                        results.innerHTML += `<p class="success">✅ ${asset} - OK</p>`;
+                    } else {
+                        results.innerHTML += `<p class="error">❌ ${asset} - Error: ${response.status}</p>`;
+                    }
+                } catch (error) {
+                    results.innerHTML += `<p class="error">❌ ${asset} - Error: ${error.message}</p>`;
+                }
+            }
+        }
+        
+        // Run tests when page loads
+        window.addEventListener('load', async () => {
+            await testModuleLoading();
+            await testAssetLoading();
+        });
+    </script>
+</body>
+</html>

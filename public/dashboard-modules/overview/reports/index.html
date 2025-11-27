@@ -1,0 +1,251 @@
+<div class="reports-header">
+  <div class="header-content">
+    <h1>📋 Reports Dashboard</h1>
+    <p>Detailed reports and comprehensive analysis of your debt collection activities</p>
+    <div class="report-controls">
+      <div class="date-range">
+        <span>Last 30 days</span>
+        <button class="date-picker">📅</button>
+      </div>
+      <div class="export-controls">
+        <button class="export-btn">📊 Export All</button>
+        <button class="print-btn">🖨️ Print</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="summary-metrics">
+  <div class="metric-card primary">
+    <div class="metric-icon">📊</div>
+    <div class="metric-content">
+      <div class="metric-value" id="total-reports">0</div>
+      <div class="metric-label">Total Reports</div>
+      <div class="metric-change positive">+5 this month</div>
+    </div>
+  </div>
+  
+  <div class="metric-card success">
+    <div class="metric-icon">📈</div>
+    <div class="metric-content">
+      <div class="metric-value" id="collection-rate">0%</div>
+      <div class="metric-label">Collection Rate</div>
+      <div class="metric-change positive">+3% from last month</div>
+    </div>
+  </div>
+  
+  <div class="metric-card info">
+    <div class="metric-icon">💰</div>
+    <div class="metric-content">
+      <div class="metric-value" id="total-collected">Ksh 0</div>
+      <div class="metric-label">Total Collected</div>
+      <div class="metric-change positive">+12% from last month</div>
+    </div>
+  </div>
+  
+  <div class="metric-card warning">
+    <div class="metric-icon">⏰</div>
+    <div class="metric-content">
+      <div class="metric-value" id="avg-collection-time">0</div>
+      <div class="metric-label">Avg Collection Time</div>
+      <div class="metric-change negative">+2 days from last month</div>
+    </div>
+  </div>
+</div>
+
+<div class="reports-charts">
+  <div class="chart-container large">
+    <div class="chart-header">
+      <h3>📈 Collection Performance Trends</h3>
+      <div class="chart-controls">
+        <button class="chart-btn active" data-period="30d">30D</button>
+        <button class="chart-btn" data-period="90d">90D</button>
+        <button class="chart-btn" data-period="1y">1Y</button>
+      </div>
+    </div>
+    <div class="chart-placeholder" id="performance-chart">
+      <div class="line-chart-mock">
+        <div class="chart-line">
+          <div class="line-point" style="left: 10%; bottom: 20%;"></div>
+          <div class="line-point" style="left: 25%; bottom: 35%;"></div>
+          <div class="line-point" style="left: 40%; bottom: 25%;"></div>
+          <div class="line-point" style="left: 55%; bottom: 50%;"></div>
+          <div class="line-point" style="left: 70%; bottom: 45%;"></div>
+          <div class="line-point" style="left: 85%; bottom: 65%;"></div>
+          <div class="line-point" style="left: 95%; bottom: 70%;"></div>
+        </div>
+        <div class="chart-grid">
+          <div class="grid-line"></div>
+          <div class="grid-line"></div>
+          <div class="grid-line"></div>
+          <div class="grid-line"></div>
+        </div>
+        <div class="chart-labels">
+          <span>Week 1</span>
+          <span>Week 2</span>
+          <span>Week 3</span>
+          <span>Week 4</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="chart-container">
+    <div class="chart-header">
+      <h3>📊 Report Categories</h3>
+    </div>
+    <div class="chart-placeholder" id="categories-chart">
+      <div class="donut-chart-mock">
+        <div class="donut-center">
+          <div class="center-value">24</div>
+          <div class="center-label">Total Reports</div>
+        </div>
+      </div>
+      <div class="donut-legend">
+        <div class="legend-item">
+          <span class="legend-color" style="background: #667eea;"></span>
+          <span>Financial (8)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background: #f093fb;"></span>
+          <span>Performance (6)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background: #4facfe;"></span>
+          <span>Collection (5)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background: #43e97b;"></span>
+          <span>Analytics (5)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="reports-sections">
+  <div class="reports-section">
+    <div class="section-header">
+      <h3>📋 Available Reports</h3>
+      <div class="section-controls">
+        <select class="filter-select">
+          <option value="all">All Categories</option>
+          <option value="financial">Financial</option>
+          <option value="performance">Performance</option>
+          <option value="collection">Collection</option>
+          <option value="analytics">Analytics</option>
+        </select>
+        <button class="view-all-btn">View All</button>
+      </div>
+    </div>
+    <div class="reports-grid" id="detailed-reports">
+      <div class="report-item featured">
+        <div class="report-icon">💰</div>
+        <div class="report-content">
+          <h4>Monthly Financial Summary</h4>
+          <p>Comprehensive overview of all financial transactions and outstanding amounts</p>
+          <div class="report-meta">
+            <span class="report-date">Generated 2 hours ago</span>
+            <span class="report-size">2.4 MB</span>
+          </div>
+        </div>
+        <div class="report-actions">
+          <button class="btn-primary">📊 View</button>
+          <button class="btn-secondary">📥 Download</button>
+        </div>
+      </div>
+      
+      <div class="report-item">
+        <div class="report-icon">📈</div>
+        <div class="report-content">
+          <h4>Collection Performance</h4>
+          <p>Analysis of collection rates and efficiency metrics</p>
+          <div class="report-meta">
+            <span class="report-date">Generated 1 day ago</span>
+            <span class="report-size">1.8 MB</span>
+          </div>
+        </div>
+        <div class="report-actions">
+          <button class="btn-primary">📊 View</button>
+          <button class="btn-secondary">📥 Download</button>
+        </div>
+      </div>
+      
+      <div class="report-item">
+        <div class="report-icon">📋</div>
+        <div class="report-content">
+          <h4>Debt Portfolio Analysis</h4>
+          <p>Detailed breakdown of debt categories and risk assessment</p>
+          <div class="report-meta">
+            <span class="report-date">Generated 3 days ago</span>
+            <span class="report-size">3.2 MB</span>
+          </div>
+        </div>
+        <div class="report-actions">
+          <button class="btn-primary">📊 View</button>
+          <button class="btn-secondary">📥 Download</button>
+        </div>
+      </div>
+      
+      <div class="report-item">
+        <div class="report-icon">⏰</div>
+        <div class="report-content">
+          <h4>Collection Timeline</h4>
+          <p>Timeline analysis of collection activities and follow-ups</p>
+          <div class="report-meta">
+            <span class="report-date">Generated 1 week ago</span>
+            <span class="report-size">1.5 MB</span>
+          </div>
+        </div>
+        <div class="report-actions">
+          <button class="btn-primary">📊 View</button>
+          <button class="btn-secondary">📥 Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="reports-section">
+    <div class="section-header">
+      <h3>📊 Performance Metrics</h3>
+      <button class="refresh-btn">🔄 Refresh</button>
+    </div>
+    <div class="metrics-grid" id="performance-metrics">
+      <div class="metric-item">
+        <div class="metric-icon-small">🎯</div>
+        <div class="metric-info">
+          <div class="metric-value-small">87%</div>
+          <div class="metric-label-small">Success Rate</div>
+        </div>
+        <div class="metric-trend positive">↗ +5%</div>
+      </div>
+      
+      <div class="metric-item">
+        <div class="metric-icon-small">⚡</div>
+        <div class="metric-info">
+          <div class="metric-value-small">2.3</div>
+          <div class="metric-label-small">Avg Follow-ups</div>
+        </div>
+        <div class="metric-trend negative">↘ -0.2</div>
+      </div>
+      
+      <div class="metric-item">
+        <div class="metric-icon-small">📞</div>
+        <div class="metric-info">
+          <div class="metric-value-small">156</div>
+          <div class="metric-label-small">Calls Made</div>
+        </div>
+        <div class="metric-trend positive">↗ +12</div>
+      </div>
+      
+      <div class="metric-item">
+        <div class="metric-icon-small">📧</div>
+        <div class="metric-info">
+          <div class="metric-value-small">89</div>
+          <div class="metric-label-small">Emails Sent</div>
+        </div>
+        <div class="metric-trend positive">↗ +8</div>
+      </div>
+    </div>
+  </div>
+</div>

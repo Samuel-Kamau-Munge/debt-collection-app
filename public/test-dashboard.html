@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Test - Debt Collection System</title>
+  <link rel="stylesheet" href="/dashboard.css">
+  <link rel="stylesheet" href="/dashboard-modules/general/dashboard.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-brand">Debt Collection System</div>
+    <ul class="navbar-menu">
+      <!-- Navigation moved to sidebar -->
+    </ul>
+    <div class="navbar-actions">
+      <div class="navbar-alerts">
+        <button id="alerts-btn">⚠️ <span id="alert-count">0</span></button>
+        <div id="alerts-dropdown" class="alerts-dropdown">
+          <p>No alerts</p>
+        </div>
+      </div>
+      <div class="navbar-user">
+        <div class="user-profile">
+          <span class="user-name" id="user-name">Test User</span>
+          <div class="user-dropdown">
+            <a href="#" onclick="logout()">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h3>Navigation</h3>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <h4>📊 Dashboard</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-analytics" class="nav-link" data-module="overview/analytics">Analytics</a></li>
+            <li><a href="#" id="sidebar-reports" class="nav-link" data-module="overview/reports">Reports</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <h4>💳 Debt Management</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-record-debt" class="nav-link" data-module="debt-management/record-debt">Record New Debt</a></li>
+            
+          </ul>
+        </div>
+        <div class="nav-section">
+          <h4>💳 Credit Management</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-record-credit" class="nav-link" data-module="credit-management/record-credit">Record New Credit</a></li>
+            <li><a href="#" id="sidebar-view-credits" class="nav-link" data-module="credit-management/view-credits">View All Credits</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <h4>💰 Transactions</h4>
+          <ul class="nav-list">
+            <li><a href="#" id="sidebar-transaction-history" class="nav-link" data-module="transaction-management/pending-transactions">Transaction History</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+    
+    <main class="main-content">
+      <div class="content-header">
+        <h1>Dashboard</h1>
+        <div class="header-actions">
+          <button onclick="exportDebts()" class="btn-secondary">Export Debts</button>
+          <button onclick="clearFilters()" class="btn-secondary">Clear Filters</button>
+          <button onclick="refreshDebts()" class="btn-primary">Refresh</button>
+          <button onclick="addDebt()" class="btn-primary">Add Debt</button>
+        </div>
+      </div>
+      
+      <div class="quick-stats">
+        <div class="quick-stat" data-stat="analytics">
+          <div class="stat-icon">📊</div>
+          <div class="stat-content">
+            <h3>Analytics</h3>
+            <p>View detailed analytics</p>
+          </div>
+        </div>
+        <div class="quick-stat" data-stat="debts">
+          <div class="stat-icon">💳</div>
+          <div class="stat-content">
+            <h3>Debts</h3>
+            <p>Manage your debts</p>
+          </div>
+        </div>
+        <div class="quick-stat" data-stat="credits">
+          <div class="stat-icon">💰</div>
+          <div class="stat-content">
+            <h3>Credits</h3>
+            <p>Manage your credits</p>
+          </div>
+        </div>
+        <div class="quick-stat" data-stat="transactions">
+          <div class="stat-icon">📋</div>
+          <div class="stat-content">
+            <h3>Transactions</h3>
+            <p>View transaction history</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="content-section">
+        <h2>Test Buttons</h2>
+        <div class="button-grid">
+          <button onclick="editDebt(1)" class="btn-secondary">Edit Debt</button>
+          <button onclick="deleteDebt(1)" class="btn-danger">Delete Debt</button>
+          <button onclick="viewDebt(1)" class="btn-info">View Debt</button>
+          <button onclick="recordPayment(1)" class="btn-success">Record Payment</button>
+          <button onclick="addCredit()" class="btn-primary">Add Credit</button>
+          <button onclick="editCredit(1)" class="btn-secondary">Edit Credit</button>
+          <button onclick="deleteCredit(1)" class="btn-danger">Delete Credit</button>
+          <button onclick="viewCredit(1)" class="btn-info">View Credit</button>
+          <button onclick="recordCreditPayment(1)" class="btn-success">Record Credit Payment</button>
+          <button onclick="previousPage()" class="btn-secondary">Previous Page</button>
+          <button onclick="nextPage()" class="btn-secondary">Next Page</button>
+          <button onclick="exportCredits()" class="btn-secondary">Export Credits</button>
+          <button onclick="refreshCredits()" class="btn-primary">Refresh Credits</button>
+          <button onclick="showDebtStats()" class="btn-info">Debt Stats</button>
+          <button onclick="showCreditStats()" class="btn-info">Credit Stats</button>
+          <button onclick="showTransactionStats()" class="btn-info">Transaction Stats</button>
+          <button onclick="searchDebts()" class="btn-secondary">Search Debts</button>
+          <button onclick="searchCredits()" class="btn-secondary">Search Credits</button>
+          <button onclick="dismissAlert('test')" class="btn-secondary">Dismiss Alert</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script src="/test-dashboard.js"></script>
+  <script>
+    console.log('⚠️ Test dashboard HTML loaded');
+  </script>
+</body>
+</html>
+
+
+

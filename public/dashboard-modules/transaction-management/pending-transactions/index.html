@@ -1,0 +1,80 @@
+<div class="page-header">
+  <h2>⏳ Pending Transactions</h2>
+  <p>Manage and track all pending payment transactions</p>
+</div>
+
+<div class="pending-stats" id="pending-stats"></div>
+
+<div class="pending-filters">
+  <div class="filter-section">
+    <h3>🔍 Filter Pending Transactions</h3>
+    <div class="filter-row">
+      <div class="filter-group">
+        <input type="text" id="search-input" placeholder="Search by debtor name, amount, or reference...">
+      </div>
+      <div class="filter-group">
+        <select id="status-filter">
+          <option value="">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="overdue">Overdue</option>
+          <option value="due_today">Due Today</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <select id="category-filter">
+          <option value="">All Categories</option>
+          <option value="business">Business</option>
+          <option value="personal">Personal</option>
+          <option value="loan">Loan</option>
+          <option value="service">Service</option>
+          <option value="rent">Rent</option>
+          <option value="utilities">Utilities</option>
+          <option value="medical">Medical</option>
+          <option value="education">Education</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <button class="btn-secondary" id="clear-pending-filters">Clear Filters</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pending-actions">
+  <div class="actions-left">
+    <button class="btn-primary" id="pending-receive-btn">
+      <span class="btn-icon">💰</span>
+      Receive Payment
+    </button>
+    <button class="btn-secondary" id="send-reminders-btn">
+      <span class="btn-icon">📧</span>
+      Send Reminders
+    </button>
+  </div>
+  <div class="actions-right">
+    <button class="btn-secondary" id="pending-refresh-btn">
+      <span class="btn-icon">🔄</span>
+      Refresh
+    </button>
+  </div>
+</div>
+
+<div class="pending-content">
+  <div class="pending-tabs">
+    <button class="tab-button active" onclick="switchTab('all')" data-tab="all">
+      All Pending
+    </button>
+    <button class="tab-button" onclick="switchTab('overdue')" data-tab="overdue">
+      Overdue
+    </button>
+    <button class="tab-button" onclick="switchTab('due_today')" data-tab="due_today">
+      Due Today
+    </button>
+    <button class="tab-button" onclick="switchTab('this_week')" data-tab="this_week">
+      This Week
+    </button>
+  </div>
+  
+  <div class="pending-list" id="pending-list"></div>
+</div>

@@ -1,0 +1,62 @@
+<div class="credit-reports-container">
+  <div class="page-header">
+    <h2>📊 Credit Reports</h2>
+    <p>Analyze and track your credit performance</p>
+  </div>
+
+  <div class="reports-stats" id="reports-stats">
+    <div style="text-align: center; padding: 2rem; color: #fff;">Loading statistics...</div>
+  </div>
+
+  <div class="reports-filters">
+    <div class="filter-section">
+      <h3>🔍 Filters</h3>
+      <div class="filter-row">
+        <div class="filter-group">
+          <label for="date-range">Date Range</label>
+          <select id="date-range">
+            <option value="all">All Time</option>
+            <option value="today">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="quarter">This Quarter</option>
+            <option value="year">This Year</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="credit-type-filter">Credit Type</label>
+          <select id="credit-type-filter">
+            <option value="">All Types</option>
+            <option value="income">Income</option>
+            <option value="refund">Refund</option>
+            <option value="payment">Payment</option>
+            <option value="investment">Investment</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <button class="btn-secondary" onclick="clearFilters()">Clear Filters</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reports-content">
+    <div class="reports-tabs">
+      <button class="tab-button active" onclick="switchTab('summary')" data-tab="summary">Summary</button>
+      <button class="tab-button" onclick="switchTab('trends')" data-tab="trends">Trends</button>
+      <button class="tab-button" onclick="switchTab('breakdown')" data-tab="breakdown">Type Breakdown</button>
+      <button class="tab-button" onclick="switchTab('monthly')" data-tab="monthly">Monthly View</button>
+    </div>
+
+    <div class="reports-actions">
+      <button class="btn-primary" onclick="exportReport()">📤 Export</button>
+      <button class="btn-secondary" onclick="printReport()">🖨️ Print</button>
+      <button class="btn-secondary" onclick="refreshReports()">🔄 Refresh</button>
+    </div>
+
+    <div class="reports-body" id="reports-body">
+      <div style="text-align: center; padding: 2rem; color: #fff;">Loading reports...</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="page-header">
+  <h2>💰 View All Credits</h2>
+  <p>Manage and track all your credit entries</p>
+</div>
+
+<div class="credits-stats" id="credits-stats">
+  <div class="loading-message">Loading credit statistics...</div>
+</div>
+
+<div class="credits-filters">
+  <div class="filter-section">
+    <h3>🔍 Search & Filter</h3>
+    <div class="filter-row">
+      <div class="filter-group">
+        <input type="text" id="search-input" placeholder="Search by name, amount, or reference...">
+      </div>
+      <div class="filter-group">
+        <select id="type-filter">
+          <option value="">All Types</option>
+          <option value="income">Income</option>
+          <option value="refund">Refund</option>
+          <option value="payment">Payment Received</option>
+          <option value="investment">Investment</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <select id="status-filter">
+          <option value="">All Statuses</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <button class="btn-secondary" onclick="clearFilters()">Clear Filters</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="credits-actions">
+  <div class="actions-left">
+    <button class="btn-primary" onclick="goToRecordCredit()">
+      <span class="btn-icon">➕</span>
+      Record New Credit
+    </button>
+    <button class="btn-secondary" onclick="exportCredits()">
+      <span class="btn-icon">📤</span>
+      Export Credits
+    </button>
+  </div>
+  <div class="actions-right">
+    <button class="btn-secondary" onclick="refreshCredits()">
+      <span class="btn-icon">🔄</span>
+      Refresh
+    </button>
+  </div>
+</div>
+
+<div class="credits-list" id="credits-list">
+  <div class="loading-message">Loading credits...</div>
+</div>
+
+<div class="pagination" id="pagination" style="display: none;">
+  <button class="btn-secondary" onclick="previousPage()">Previous</button>
+  <span class="page-info" id="page-info">Page 1 of 1</span>
+  <button class="btn-secondary" onclick="nextPage()">Next</button>
+</div>
+
+<script src="script-fixed.js"></script>
+

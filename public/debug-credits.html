@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Credits</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .error { color: red; }
+        .success { color: green; }
+        button { padding: 10px 15px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Debug Credits Management</h1>
+    
+    <div class="debug-section">
+        <h2>Authentication Status</h2>
+        <div id="auth-status">Checking...</div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>API Tests</h2>
+        <button onclick="testCreditsAPI()">Test Credits API</button>
+        <button onclick="testCategoriesAPI()">Test Categories API</button>
+        <button onclick="testLimitsAPI()">Test Limits API</button>
+        <button onclick="testReportsAPI()">Test Reports API</button>
+        <div id="api-results"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Console Logs</h2>
+        <div id="console-logs"></div>
+    </div>
+
+    <script>
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const logContainer = document.getElementById('console-logs');
+        
+        function addLog(message, type = 'log') {
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logContainer.appendChild(div);
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog(args.join(' '), 'log');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLog(args.join(' '), 'error');
+        };
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const authStatus = document.getElementById('auth-status');
+            
+            if (token) {
+                authStatus.innerHTML = '<span class="success">✓ Token found</span>';
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    authStatus.innerHTML += `<br>User ID: ${payload.id}<br>Username: ${payload.username}`;
+                } catch (e) {
+                    authStatus.innerHTML += '<br><span class="error">Invalid token format</span>';
+                }
+            } else {
+                authStatus.innerHTML = '<span class="error">✗ No token found</span>';
+            }
+        }
+
+        // API test functions
+        async function testCreditsAPI() {
+            const results = document.getElementById('api-results');
+            try {
+                const response = await fetch('/api/credits', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const data = await response.json();
+                results.innerHTML += `<div class="success">Credits API: ${JSON.stringify(data)}</div>`;
+            } catch (error) {
+                results.innerHTML += `<div class="error">Credits API Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testCategoriesAPI() {
+            const results = document.getElementById('api-results');
+            try {
+                const response = await fetch('/api/credits/categories/list', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const data = await response.json();
+                results.innerHTML += `<div class="success">Categories API: ${JSON.stringify(data)}</div>`;
+            } catch (error) {
+                results.innerHTML += `<div class="error">Categories API Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testLimitsAPI() {
+            const results = document.getElementById('api-results');
+            try {
+                const response = await fetch('/api/credits/limits/summary', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const data = await response.json();
+                results.innerHTML += `<div class="success">Limits API: ${JSON.stringify(data)}</div>`;
+            } catch (error) {
+                results.innerHTML += `<div class="error">Limits API Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testReportsAPI() {
+            const results = document.getElementById('api-results');
+            try {
+                const response = await fetch('/api/credits/reports/summary', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const data = await response.json();
+                results.innerHTML += `<div class="success">Reports API: ${JSON.stringify(data)}</div>`;
+            } catch (error) {
+                results.innerHTML += `<div class="error">Reports API Error: ${error.message}</div>`;
+            }
+        }
+
+        // Initialize
+        checkAuth();
+    </script>
+</body>
+</html>

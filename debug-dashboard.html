@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #000; color: #0f0; }
+        .debug { background: #111; padding: 10px; margin: 10px 0; border: 1px solid #0f0; }
+        button { background: #0f0; color: #000; border: none; padding: 10px; margin: 5px; cursor: pointer; }
+        .error { color: #f00; }
+        .success { color: #0f0; }
+    </style>
+</head>
+<body>
+    <h1>Debug Dashboard</h1>
+    
+    <div class="debug">
+        <h3>Step 1: Check Token</h3>
+        <div id="token-status">Checking...</div>
+        <button onclick="checkToken()">Check Token</button>
+        <button onclick="login()">Login</button>
+        <button onclick="clearToken()">Clear Token</button>
+    </div>
+    
+    <div class="debug">
+        <h3>Step 2: Test API Call</h3>
+        <div id="api-status">Ready...</div>
+        <button onclick="testAPI()">Test Dashboard API</button>
+    </div>
+    
+    <div class="debug">
+        <h3>Step 3: Test Overview Display</h3>
+        <div id="overview-status">Ready...</div>
+        <button onclick="testOverview()">Test Overview Display</button>
+    </div>
+    
+    <div class="debug">
+        <h3>Console Logs</h3>
+        <div id="console-logs" style="height: 200px; overflow-y: scroll; background: #222; padding: 10px;"></div>
+    </div>
+
+    <script>
+        // Override console.log to show in page
+        const originalLog = console.log;
+        const originalError = console.error;
+        
+        function addLog(message, type = 'log') {
+            const logs = document.getElementById('console-logs');
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logs.appendChild(div);
+            logs.scrollTop = logs.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog(args.join(' '), 'success');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLog(args.join(' '), 'error');
+        };
+        
+        function checkToken() {
+            const token = localStorage.getItem('token');
+            const status = document.getElementById('token-status');
+            if (token) {
+                status.innerHTML = `<span class="success">Token found: ${token.substring(0, 30)}...</span>`;
+            } else {
+                status.innerHTML = '<span class="error">No token found</span>';
+            }
+        }
+        
+        async function login() {
+            try {
+                console.log('Attempting login...');
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: 'newuser', password: 'password123' })
+                });
+                
+                const data = await response.json();
+                console.log('Login response:', data);
+                
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    document.getElementById('token-status').innerHTML = `<span class="success">Login successful! Token stored.</span>`;
+                } else {
+                    document.getElementById('token-status').innerHTML = `<span class="error">Login failed: ${data.error}</span>`;
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                document.getElementById('token-status').innerHTML = `<span class="error">Login error: ${error.message}</span>`;
+            }
+        }
+        
+        function clearToken() {
+            localStorage.removeItem('token');
+            document.getElementById('token-status').innerHTML = '<span class="error">Token cleared</span>';
+        }
+        
+        async function testAPI() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    document.getElementById('api-status').innerHTML = '<span class="error">No token found. Please login first.</span>';
+                    return;
+                }
+                
+                console.log('Testing dashboard API...');
+                const response = await fetch('/api/dashboard/overview', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                console.log('API response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('API error:', errorText);
+                    document.getElementById('api-status').innerHTML = `<span class="error">API error: ${response.status} - ${errorText}</span>`;
+                    return;
+                }
+                
+                const data = await response.json();
+                console.log('API data received:', data);
+                document.getElementById('api-status').innerHTML = `<span class="success">API success! Data: ${JSON.stringify(data, null, 2)}</span>`;
+            } catch (error) {
+                console.error('API test error:', error);
+                document.getElementById('api-status').innerHTML = `<span class="error">API test error: ${error.message}</span>`;
+            }
+        }
+        
+        async function testOverview() {
+            try {
+                console.log('Testing overview display...');
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No token found');
+                }
+                
+                const response = await fetch('/api/dashboard/overview', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Overview data:', data);
+                
+                // Test the display logic
+                const overview = data.overview || {};
+                const totalDebts = overview.debtCount || 0;
+                const totalOutstanding = overview.totalOutstandingDebts || 0;
+                
+                document.getElementById('overview-status').innerHTML = `
+                    <span class="success">
+                        Overview display test successful!<br>
+                        Total Debts: ${totalDebts}<br>
+                        Total Outstanding: Ksh ${totalOutstanding.toLocaleString()}
+                    </span>
+                `;
+            } catch (error) {
+                console.error('Overview test error:', error);
+                document.getElementById('overview-status').innerHTML = `<span class="error">Overview test error: ${error.message}</span>`;
+            }
+        }
+        
+        // Auto-check token on load
+        window.onload = function() {
+            checkToken();
+        };
+    </script>
+</body>
+</html>

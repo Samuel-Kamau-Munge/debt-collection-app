@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Notification Test</title>
+  <link rel="stylesheet" href="/dashboard-modules/general/dashboard.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-brand">Debt Manager Pro</div>
+    <div class="navbar-actions">
+      <div class="navbar-notifications">
+        <button id="notifications-btn">🔔 <span id="notification-count">0</span></button>
+        <div id="notifications-dropdown" class="notifications-dropdown">
+          <p>No new notifications</p>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container" style="margin: 20px;">
+    <h1>🔔 Dashboard Notification Test</h1>
+    <p>This page tests the actual dashboard notification system.</p>
+    
+    <div style="margin: 20px 0;">
+      <button onclick="testLoadNotifications()">Test Load Notifications</button>
+      <button onclick="testUpdateDisplay()">Test Update Display</button>
+    </div>
+    
+    <div id="debug-info" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+      <h3>Debug Info:</h3>
+      <div id="debug-content">Loading...</div>
+    </div>
+  </div>
+
+  <script src="/dashboard-modules/general/dashboard.js"></script>
+  <script>
+    // Wait for dashboard to initialize
+    window.addEventListener('load', function() {
+      console.log('Page loaded, dashboard should be initialized...');
+      
+      // Wait a bit for dashboard to initialize
+      setTimeout(() => {
+        updateDebugInfo();
+      }, 1000);
+    });
+    
+    function testLoadNotifications() {
+      console.log('Testing loadNotifications...');
+      if (window.dashboardController) {
+        window.dashboardController.loadNotifications();
+        setTimeout(updateDebugInfo, 500);
+      } else {
+        console.error('Dashboard controller not found');
+      }
+    }
+    
+    function testUpdateDisplay() {
+      console.log('Testing updateNotificationDisplay...');
+      if (window.dashboardController) {
+        const mockNotifications = [
+          {
+            id: 1,
+            title: 'Test Notification',
+            message: 'This is a test notification',
+            is_read: false,
+            created_at: new Date().toISOString()
+          }
+        ];
+        window.dashboardController.updateNotificationDisplay(mockNotifications, 1);
+        setTimeout(updateDebugInfo, 500);
+      } else {
+        console.error('Dashboard controller not found');
+      }
+    }
+    
+    function updateDebugInfo() {
+      const debugContent = document.getElementById('debug-content');
+      if (debugContent) {
+        const countElement = document.getElementById('notification-count');
+        const dropdownElement = document.getElementById('notifications-dropdown');
+        
+        debugContent.innerHTML = `
+          <p><strong>Dashboard Controller:</strong> ${window.dashboardController ? 'Found' : 'Not found'}</p>
+          <p><strong>Count Element:</strong> ${countElement ? countElement.textContent : 'Not found'}</p>
+          <p><strong>Count Display:</strong> ${countElement ? countElement.style.display : 'N/A'}</p>
+          <p><strong>Dropdown Content Length:</strong> ${dropdownElement ? dropdownElement.innerHTML.length : 'N/A'}</p>
+          <p><strong>Dropdown Content:</strong> ${dropdownElement ? dropdownElement.innerHTML.substring(0, 200) + '...' : 'N/A'}</p>
+          <p><strong>Mock Notifications:</strong> ${window.dashboardController ? window.dashboardController.mockNotifications.length : 'N/A'}</p>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
+
+
+
+

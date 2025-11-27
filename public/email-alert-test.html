@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Alert Test - Debt Manager Pro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #34495e;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        button.success {
+            background: #27ae60;
+        }
+        button.warning {
+            background: #f39c12;
+        }
+        button.danger {
+            background: #e74c3c;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .result.success {
+            background: #d5f4e6;
+            border: 1px solid #27ae60;
+            color: #27ae60;
+        }
+        .result.error {
+            background: #fadbd8;
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+        .result.info {
+            background: #d6eaf8;
+            border: 1px solid #3498db;
+            color: #3498db;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .status {
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .status.configured {
+            background: #d5f4e6;
+            border: 1px solid #27ae60;
+            color: #27ae60;
+        }
+        .status.not-configured {
+            background: #fadbd8;
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 Email Alert Test Center</h1>
+        
+        <div id="status" class="status">
+            <p>Checking email configuration...</p>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔧 Email Configuration Status</h3>
+            <button onclick="checkEmailStatus()">Check Status</button>
+            <div id="emailStatus" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📧 Test Transaction Alert</h3>
+            <div class="form-group">
+                <label>Alert Type:</label>
+                <select id="alertType">
+                    <option value="payment_received">Payment Received</option>
+                    <option value="payment_made">Payment Made</option>
+                    <option value="debt_created">Debt Created</option>
+                    <option value="credit_created">Credit Created</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Amount:</label>
+                <input type="number" id="amount" value="5000" placeholder="Enter amount">
+            </div>
+            <div class="form-group">
+                <label>Debtor/Creditor Name:</label>
+                <input type="text" id="name" value="John Doe" placeholder="Enter name">
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea id="description" placeholder="Enter description">Test email alert from Debt Manager Pro</textarea>
+            </div>
+            <button onclick="sendTestAlert()">Send Test Alert</button>
+            <div id="testAlertResult" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>⚠️ Payment Reminder Alert</h3>
+            <div class="form-group">
+                <label>Debtor Name:</label>
+                <input type="text" id="reminderName" value="Jane Smith" placeholder="Enter debtor name">
+            </div>
+            <div class="form-group">
+                <label>Amount:</label>
+                <input type="number" id="reminderAmount" value="3000" placeholder="Enter amount">
+            </div>
+            <div class="form-group">
+                <label>Due Date:</label>
+                <input type="date" id="dueDate" value="2025-10-25">
+            </div>
+            <div class="form-group">
+                <label>Days Overdue:</label>
+                <input type="number" id="daysOverdue" value="2" placeholder="Enter days overdue">
+            </div>
+            <button onclick="sendReminderAlert()">Send Reminder Alert</button>
+            <div id="reminderResult" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🚨 Credit Limit Alert</h3>
+            <div class="form-group">
+                <label>Creditor Name:</label>
+                <input type="text" id="creditorName" value="ABC Bank" placeholder="Enter creditor name">
+            </div>
+            <div class="form-group">
+                <label>Current Amount:</label>
+                <input type="number" id="currentAmount" value="45000" placeholder="Enter current amount">
+            </div>
+            <div class="form-group">
+                <label>Credit Limit:</label>
+                <input type="number" id="creditLimit" value="50000" placeholder="Enter credit limit">
+            </div>
+            <div class="form-group">
+                <label>Utilization %:</label>
+                <input type="number" id="utilization" value="90" placeholder="Enter utilization percentage">
+            </div>
+            <button onclick="sendCreditAlert()">Send Credit Limit Alert</button>
+            <div id="creditResult" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📢 Bulk Alert</h3>
+            <div class="form-group">
+                <label>Subject:</label>
+                <input type="text" id="bulkSubject" value="System Maintenance Notice" placeholder="Enter subject">
+            </div>
+            <div class="form-group">
+                <label>Message:</label>
+                <textarea id="bulkMessage" placeholder="Enter message">The Debt Manager Pro system will undergo maintenance on Sunday from 2 AM to 4 AM. Please save your work before this time.</textarea>
+            </div>
+            <div class="form-group">
+                <label>Alert Type:</label>
+                <select id="bulkType">
+                    <option value="system">System</option>
+                    <option value="payment_due">Payment Due</option>
+                    <option value="payment_overdue">Payment Overdue</option>
+                    <option value="credit_limit">Credit Limit</option>
+                </select>
+            </div>
+            <button onclick="sendBulkAlert()">Send Bulk Alert</button>
+            <div id="bulkResult" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>👥 User Management</h3>
+            <button onclick="getUsers()">Get All Users</button>
+            <div id="usersResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Get auth token from localStorage or prompt user
+        function getAuthToken() {
+            let token = localStorage.getItem('authToken');
+            if (!token) {
+                token = prompt('Please enter your auth token (or login to dashboard first):');
+                if (token) {
+                    localStorage.setItem('authToken', token);
+                }
+            }
+            return token;
+        }
+        
+        // Make API request
+        async function apiRequest(endpoint, method = 'GET', data = null) {
+            const token = getAuthToken();
+            if (!token) {
+                throw new Error('No auth token available');
+            }
+            
+            const options = {
+                method,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            };
+            
+            if (data) {
+                options.body = JSON.stringify(data);
+            }
+            
+            const response = await fetch(`/api/email-alerts${endpoint}`, options);
+            const result = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(result.error || 'Request failed');
+            }
+            
+            return result;
+        }
+        
+        // Check email status
+        async function checkEmailStatus() {
+            try {
+                const result = await apiRequest('/status');
+                const statusDiv = document.getElementById('emailStatus');
+                const statusContainer = document.getElementById('status');
+                
+                if (result.emailConfigured) {
+                    statusContainer.className = 'status configured';
+                    statusContainer.innerHTML = `
+                        <h3>✅ Email Service Configured</h3>
+                        <p>SMTP Host: ${result.smtpHost}</p>
+                        <p>SMTP User: ${result.smtpUser}</p>
+                        <p>User Email: ${result.userEmail || 'Not set'}</p>
+                    `;
+                    
+                    statusDiv.className = 'result success';
+                    statusDiv.innerHTML = `Email service is properly configured and ready to send alerts.`;
+                } else {
+                    statusContainer.className = 'status not-configured';
+                    statusContainer.innerHTML = `
+                        <h3>❌ Email Service Not Configured</h3>
+                        <p>Please set SMTP_USER and SMTP_PASS environment variables</p>
+                        <p>Example: SMTP_USER=your-email@gmail.com SMTP_PASS=your-app-password</p>
+                    `;
+                    
+                    statusDiv.className = 'result error';
+                    statusDiv.innerHTML = `Email service is not configured. Set SMTP_USER and SMTP_PASS environment variables.`;
+                }
+            } catch (error) {
+                document.getElementById('emailStatus').className = 'result error';
+                document.getElementById('emailStatus').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Send test alert
+        async function sendTestAlert() {
+            try {
+                const data = {
+                    type: document.getElementById('alertType').value,
+                    amount: document.getElementById('amount').value,
+                    debtorName: document.getElementById('name').value,
+                    description: document.getElementById('description').value
+                };
+                
+                const result = await apiRequest('/test', 'POST', data);
+                
+                document.getElementById('testAlertResult').className = 'result success';
+                document.getElementById('testAlertResult').innerHTML = `
+                    ✅ Test alert sent successfully!<br>
+                    Message ID: ${result.messageId || 'N/A'}<br>
+                    Check your email inbox.
+                `;
+            } catch (error) {
+                document.getElementById('testAlertResult').className = 'result error';
+                document.getElementById('testAlertResult').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Send reminder alert
+        async function sendReminderAlert() {
+            try {
+                const data = {
+                    debtorName: document.getElementById('reminderName').value,
+                    amount: document.getElementById('reminderAmount').value,
+                    dueDate: document.getElementById('dueDate').value,
+                    daysOverdue: document.getElementById('daysOverdue').value
+                };
+                
+                const result = await apiRequest('/payment-reminder', 'POST', data);
+                
+                document.getElementById('reminderResult').className = 'result success';
+                document.getElementById('reminderResult').innerHTML = `
+                    ✅ Payment reminder sent successfully!<br>
+                    Message ID: ${result.messageId || 'N/A'}<br>
+                    Check your email inbox.
+                `;
+            } catch (error) {
+                document.getElementById('reminderResult').className = 'result error';
+                document.getElementById('reminderResult').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Send credit alert
+        async function sendCreditAlert() {
+            try {
+                const data = {
+                    creditorName: document.getElementById('creditorName').value,
+                    currentAmount: document.getElementById('currentAmount').value,
+                    creditLimit: document.getElementById('creditLimit').value,
+                    utilizationPercentage: document.getElementById('utilization').value
+                };
+                
+                const result = await apiRequest('/credit-limit-alert', 'POST', data);
+                
+                document.getElementById('creditResult').className = 'result success';
+                document.getElementById('creditResult').innerHTML = `
+                    ✅ Credit limit alert sent successfully!<br>
+                    Message ID: ${result.messageId || 'N/A'}<br>
+                    Check your email inbox.
+                `;
+            } catch (error) {
+                document.getElementById('creditResult').className = 'result error';
+                document.getElementById('creditResult').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Send bulk alert
+        async function sendBulkAlert() {
+            try {
+                const data = {
+                    subject: document.getElementById('bulkSubject').value,
+                    message: document.getElementById('bulkMessage').value,
+                    alertType: document.getElementById('bulkType').value
+                };
+                
+                const result = await apiRequest('/bulk-alert', 'POST', data);
+                
+                document.getElementById('bulkResult').className = 'result success';
+                document.getElementById('bulkResult').innerHTML = `
+                    ✅ Bulk alert sent successfully!<br>
+                    Total users: ${result.totalUsers}<br>
+                    Emails sent: ${result.emailsSent}<br>
+                    Check all user email inboxes.
+                `;
+            } catch (error) {
+                document.getElementById('bulkResult').className = 'result error';
+                document.getElementById('bulkResult').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Get users
+        async function getUsers() {
+            try {
+                const result = await apiRequest('/users');
+                
+                document.getElementById('usersResult').className = 'result info';
+                document.getElementById('usersResult').innerHTML = `
+                    Total users: ${result.totalUsers}<br>
+                    Users with email: ${result.usersWithEmail}<br><br>
+                    Users:<br>
+                    ${result.users.map(u => `• ${u.username} (${u.email || 'No email'})`).join('<br>')}
+                `;
+            } catch (error) {
+                document.getElementById('usersResult').className = 'result error';
+                document.getElementById('usersResult').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            checkEmailStatus();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
