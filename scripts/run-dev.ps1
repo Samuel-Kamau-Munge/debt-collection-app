@@ -12,12 +12,10 @@ if (-not (Test-Path .env)) {
 if (-not (Test-Path logs)) { New-Item -ItemType Directory -Path logs | Out-Null }
 
 Write-Host "Starting API server on port $ApiPort"
-$env:PORT = $ApiPort
-Start-Process -NoNewWindow -FilePath "npx" -ArgumentList "nodemon server.js"
+Start-Process -NoNewWindow -FilePath "npx" -ArgumentList "nodemon server.js" -Environment @{PORT=$ApiPort}
 
 Start-Sleep -Seconds 1
 Write-Host "Starting Dashboard server on port $DashboardPort"
-$env:PORT = $DashboardPort
-Start-Process -NoNewWindow -FilePath "node" -ArgumentList "dashboard-server.js"
+Start-Process -NoNewWindow -FilePath "node" -ArgumentList "dashboard-server.js" -Environment @{PORT=$DashboardPort}
 
 Write-Host "Servers started. API: http://localhost:$ApiPort  Dashboard: http://localhost:$DashboardPort"

@@ -91,9 +91,6 @@ node create-test-user.js
 Run individual test scripts to verify functionality:
 
 ```bash
-# Test authentication flow
-node test-auth-flow.html  # (open in browser)
-
 # Test debt recording
 node test-debt-recording.js
 
@@ -106,6 +103,11 @@ node test-phone-service.js
 # Test SMS
 node test-sms.js
 ```
+
+Open HTML test files in a browser:
+- `test-auth-flow.html` - Test authentication flow
+- `test-all-buttons.html` - Test all button interactions
+- `test-dashboard-visibility.html` - Test dashboard visibility
 
 ## Troubleshooting
 

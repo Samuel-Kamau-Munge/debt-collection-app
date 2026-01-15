@@ -37,4 +37,4 @@ fi
 
 echo "Development servers started. API: http://localhost:$API_PORT  Dashboard: http://localhost:$DASH_PORT"
 
-echo "To stop the background processes run: kill $API_PID ${DASH_PID:-}" 
+echo "To stop the background processes run: kill $API_PID ${DASH_PID:-}"
